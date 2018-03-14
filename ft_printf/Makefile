@@ -33,8 +33,9 @@ $(NAME): $(OBJ)
 	gcc $(FLAGS) -I $(INCLUDES) -c $<
 
 comp:
-	gcc main.c libftprintf.a 
-
+	gcc -g main.c ft_printf.c ft_unicode.c libft/libft.a 
+libcomp:
+	gcc -g main.c libftprintf.a libft/libft.a 
 norm:
 	norminette -R CheckForbiddenSourceHeader
 

@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <locale.h>
 #include <unistd.h>
-#include "libft/libft.h"
+#include "libft/includes/libft.h"
 
 typedef struct s_shape
 {
@@ -32,7 +32,7 @@ typedef struct s_shape
 	int typewidth;
 	char *modifier; //h (short/unsigned short) l(long [For d, i, o, u, x or X]) L(lonng double [For e, f, g or G ])
 	char *flags;//- +  # ' ' 0
-	char *precision;
+	int precision;
 	char conversion_ch;
 }			t_shape;
 
