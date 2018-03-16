@@ -29,8 +29,13 @@ int	ft_num_length(int n, int div)
 int main()
 {
 
-	printf("mine = |%11.10d|\n", 123456789);
- 	printf("mine = |%10.11d|\n", 123456789);
+	//ft_printf("mine = |%-010.7d|\n", -12345);
+	ft_printf("mine = |%s|\n", 123456789);
+	
+
+	printf("orig = |%s|\n", 123456789);
+
+	//printf("orig = |%-010.7d|\n", -123456789);
 
 //ft_atoi("1");
 
