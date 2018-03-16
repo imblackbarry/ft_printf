@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 #include <stdio.h>
-#include <limits.h>
+//#include <limits.h>
 
 int	ft_num_length(int n, int div)
 {
@@ -29,19 +29,11 @@ int	ft_num_length(int n, int div)
 int main()
 {
 
-	 
-	// ft_printf("%ls, %ls", L"暖炉", L"لحم خنزير"));
-	
-	// printf("%ls, %ls", L"暖炉", L"لحم خنزير"));
+	printf("mine = |%11.10d|\n", 123456789);
+ 	printf("mine = |%10.11d|\n", 123456789);
 
-	// printf("mine = %d\n",
-	// ft_printf("%lc, %lc", L'暖', L'ح'));
-	// printf("orig = %d\n", 
-	// printf("%lc, %lc", L'暖', L'ح'));
-ft_printf("%O", LONG_MIN);
-printf("%O", LONG_MIN);
+//ft_atoi("1");
 
-
- ft_putchar('\n');
+ //ft_putchar('\n');
 	return (0);
 }

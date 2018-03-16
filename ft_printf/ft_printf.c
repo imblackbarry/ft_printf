@@ -39,9 +39,9 @@ int	ft_u_num_length(unsigned long long int n, int div)
 	return (i + 1);
 }
 
-int ft_typewidth(t_shape **p)
+int ft_set_type_width(t_shape **p)
 {
-	int n;
+	
 
 	if((*p)->conversion_ch == 'd' || (*p)->conversion_ch == 'i' || (*p)->conversion_ch == 'D')
 		return (ft_s_num_length((*p)->s_arg, 10));
@@ -84,7 +84,7 @@ char *ft_cut_one_arg_inf(char *s) //check
 {
 	char conversion_chs[16] = "sSpdDioOuUxXcC%";
 	char modifiers[7] = "hljzLt";
-	char flags[7] = "-+# *0";
+	char flags[8] = "-+# *0.";
 	int i;
 	char *cut_s;
 	int status;
@@ -92,7 +92,7 @@ char *ft_cut_one_arg_inf(char *s) //check
 	i = 0;
 	cut_s = NULL;
 	status = 0;
-	while(s[i] && (ft_strchr(conversion_chs, s[i]) || ft_strchr(modifiers, s[i]) || ft_strchr(flags, s[i])))
+	while(s[i] && (ft_strchr(conversion_chs, s[i]) || ft_strchr(modifiers, s[i]) || ft_strchr(flags, s[i]) || ft_isdigit(s[i])))
 	{
 		status = 1;
 		if (ft_strchr(conversion_chs, s[i]) != 0)
@@ -111,13 +111,13 @@ int	ft_search_posicion(char *s)
 {
 	char conversion_chs[16] = "sSpdDioOuUxXcC%";
 	char modifiers[7] = "hljzLt";
-	char flags[7] = "-+# *0";
+	char flags[8] = "-+# *0.";
 	int i;
 	int status;
 
 	status = 0;
 	i = 0;
-	while(s[i] && (ft_strchr(conversion_chs, s[i]) || ft_strchr(modifiers, s[i]) || ft_strchr(flags, s[i])))
+	while(s[i] && (ft_strchr(conversion_chs, s[i]) || ft_strchr(modifiers, s[i]) || ft_strchr(flags, s[i]) || ft_isdigit(s[i])))
 	{
 		status = 1;
 		if (ft_strchr(conversion_chs, s[i]) != 0)
@@ -196,28 +196,6 @@ void	ft_set_conversion_ch(t_shape **p)
 	}
 	(*p)->conversion_ch = (*p)->all_s[i];
 }
-// static void test_ls_wchar(t_test *test)
-// {
-// 	// test->debug = 1;
-// 	assert_printf("%ls, %ls", L"暖炉", L"لحم خنزير");
-// }
-
-// static void test_err_lo_up_max(t_test *test)
-// {
-// 	// test->debug = 1;
-// 	assert_printf("%lO, %lO", 0, USHRT_MAX);
-// }
-
-// static void test_err_lu_up_max(t_test *test)
-// {
-// 	// test->debug = 1;
-// 	assert_printf("%lU, %lU", 0, USHRT_MAX);
-// }
-// static void test_err_ld_up_max(t_test *test)
-// {
-// 	// test->debug = 1;
-// 	assert_printf("%lD, %lD", 0, USHRT_MAX);
-// }
 
 void ft_modifier_l(t_shape **p)
 {
@@ -234,8 +212,8 @@ void ft_modifier_l(t_shape **p)
 		(*p)->s_arg = (long)(*p)->s_arg;
 	else
 		(*p)->u_arg = (unsigned long int)(*p)->u_arg;
-
 }
+
 void ft_modifier_hh(t_shape **p)
 {
 	if ((*p)->conversion_ch == 'O')
@@ -254,6 +232,7 @@ void ft_modifier_hh(t_shape **p)
 	else
 		(*p)->s_arg = (signed char)(*p)->s_arg;
 }
+
 void	ft_modifier_h(t_shape **p)
 {
 		if ((*p)->conversion_ch == 'D')
@@ -263,6 +242,7 @@ void	ft_modifier_h(t_shape **p)
 		else
 			(*p)->u_arg = (unsigned short)(*p)->u_arg;
 }
+
 void ft_set_u_arg_with_modifier(t_shape **p)
 {
 	if (!ft_strcmp((*p)->modifier, "hh"))
@@ -305,21 +285,59 @@ void ft_set_s_arg_with_modifier(t_shape **p)
 void	ft_set_field_ch(t_shape **p)
 {
 	char *zero;
+	int i;
 
+	i = 0;
 	if (ft_strchr((*p)->all_s, ' '))
 		(*p)->field_ch = ' ';
-	zero = ft_strchr((*p)->all_s, '0');
-	
-	if (zero[0] != '\0' && ft_isdigit(zero[-1]) == 0)
-		(*p)->field_ch = '0';
-	//printf("in function conv_ch = %c\n", (*p)->conversion_ch);
-
+	else
+	{
+		while ((*p)->all_s[i] && (*p)->all_s[i] != '0')
+			i++;
+		if (i > 0 && ft_isdigit((*p)->all_s[i - 1]) == 0 && (*p)->all_s[i])
+			(*p)->field_ch = '0';
+		else if ((*p)->all_s[0] == '0')
+			(*p)->field_ch = '0';
+		else
+			(*p)->field_ch = ' ';// loooooooook
+	}
 }
+//************************************************************************************
+//<
+//<
+//<
+void	ft_set_show_width_and_precision(t_shape **p)
+{
+	int type_width;
+	int i;
 
-// void	ft_set_width(t_shape **p)
-// {
-	
-// }
+	i = 0;
+	type_width = ft_set_type_width(&(*p));
+	while ((*p)->all_s[i])
+	{
+		if (ft_isdigit((*p)->all_s[i]))
+		{
+			if (i )
+				i--;
+			
+			if ((*p)->all_s[i] == '.')
+			{
+				(*p)->precision = ft_atoi((*p)->all_s + ++i) - type_width;
+				(*p)->field_ch = '0';
+			}
+			else
+			{
+				if (!ft_isdigit((*p)->all_s[i]))
+					i++;
+				(*p)->show_width = ft_atoi((*p)->all_s + i) - type_width;
+				i++;
+			}
+			while (ft_isdigit((*p)->all_s[i]))
+				i++;
+		}
+		i++;
+	}
+}
 
 // void	ft_set_precision(t_shape )
 // {
@@ -332,7 +350,7 @@ void ft_set_field_ch_and_width_and_precision(t_shape **p)
 	ft_set_field_ch(&(*p));
 	//printf("conv_ch = %c\n", (*p)->conversion_ch);
 
-	// ft_set_width(&(*p));
+	ft_set_show_width_and_precision(&(*p));
 	// ft_set_precision(&(*p));
 
 }
@@ -391,7 +409,24 @@ unsigned long long int ft_show_uUD(t_shape **p)
 		r_len = r_len + ft_putnbr_s((*p)->s_arg);
 	return (r_len);
 }
+unsigned long long int ft_show_width_and_precision(t_shape **p)
+{
+	unsigned long long int r_len;
 
+	
+
+	r_len = 0;
+	return (r_len);
+
+}
+unsigned long long int ft_show_specifiers(t_shape **p)
+{
+	unsigned long long int r_len;
+
+	r_len = 0;
+	r_len = r_len + ft_show_width_and_precision(&(*p));
+	return (r_len);
+}
 t_show *ft_search_show_lst (t_show *head_show, t_shape **p)
 {
 	while (head_show != NULL && (ft_strchr(head_show->str, (*p)->conversion_ch) == 0 || (*p)->conversion_ch == '\0'))
@@ -413,11 +448,11 @@ unsigned long long int ft_u_start(char *s, unsigned long long int n, t_show *hea
 		write(1, "(null)", 6);
 		return (6);
 	}
-	
-	//ft_set_field_ch(&p);
 	p->u_arg = n;
 	ft_set_modifier(&p);
 	ft_set_u_arg_with_modifier(&p);
+	ft_set_field_ch_and_width_and_precision(&p);
+	r_len = ft_show_specifiers(&p);
 	head_show = ft_search_show_lst(head_show, &p);
 	if (head_show == NULL)
 		return (r_len);
@@ -482,7 +517,7 @@ unsigned long long int ft_s_start(char *s, signed long long int n, t_show *head_
 	
 	ft_set_modifier(&p);
 	ft_set_s_arg_with_modifier(&p);
-
+	ft_set_field_ch_and_width_and_precision(&p);
 	head_show = ft_search_show_lst(head_show, &p);
 	if (head_show == NULL)
 		return (r_len);
