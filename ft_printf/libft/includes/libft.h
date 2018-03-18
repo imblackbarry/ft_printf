@@ -103,4 +103,5 @@ char				*ft_itoa_base(unsigned long long int n, int base);
 char				*ft_strtoupper(char *s);
 unsigned long long int ft_putnbr_s(signed long long int n);
 unsigned long long int ft_putnbr_u(unsigned long long int n);
+unsigned long long int ft_putstrlen(char* str, int len);
 #endif

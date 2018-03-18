@@ -23,13 +23,12 @@
 typedef struct s_shape
 {
 	signed long long int s_arg;
-	//s_arg = (int)s_arg;
 	unsigned long long int u_arg;
 	char *str_arg;
 	char *all_s;
 	char field_ch;//' ' 0
 	int width;
-//	int typewidth;
+	int precision_str_arg;
 	char *modifier; //h (short/unsigned short) l(long [For d, i, o, u, x or X]) L(lonng double [For e, f, g or G ])
 	char *flags;//- +  # ' ' 0
 	int precision;

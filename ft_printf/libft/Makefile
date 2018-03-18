@@ -24,7 +24,7 @@ ft_isprint.c	ft_putchar.c	ft_strclr.c	ft_strlen.c	ft_strsplit.c\
 ft_itoa.c	ft_putchar_fd.c	ft_strcmp.c	ft_strmap.c	ft_strstr.c \
 ft_lstnew.c ft_lstdelone.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_lstdel.c\
 ft_countwords.c ft_lstdisplay.c ft_del.c ft_lstaddend.c ft_count_if.c ft_itoa_base.c\
-ft_strtoupper.c ft_putnbr_s.c ft_putnbr_u.c
+ft_strtoupper.c ft_putnbr_s.c ft_putnbr_u.c ft_putstrlen.c
 
 OBJ = ./ft_atoi.o	ft_memccpy.o	ft_strchr.o	ft_strncmp.o\
 ft_bzero.o	ft_memchr.o	ft_strcmp.o	ft_strncpy.o\
@@ -41,7 +41,7 @@ ft_putchar_fd.o	ft_putstr_fd.o	ft_strjoin.o	ft_strsub.o\
 ft_putendl.o	ft_strclr.o	ft_strmap.o	ft_strtrim.o \
 ft_lstnew.o ft_lstdelone.o ft_lstadd.o ft_lstiter.o ft_lstmap.o ft_lstdel.o\
 ft_countwords.o ft_lstdisplay.o ft_del.o ft_lstaddend.o ft_count_if.o ft_itoa_base.o\
-ft_strtoupper.o ft_putnbr_s.o ft_putnbr_u.o
+ft_strtoupper.o ft_putnbr_s.o ft_putnbr_u.o ft_putstrlen.o
 
 all: $(NAME)
 

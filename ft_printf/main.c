@@ -12,33 +12,22 @@
 
 #include "ft_printf.h"
 #include <stdio.h>
-//#include <limits.h>
+#include <limits.h>
 
-int	ft_num_length(int n, int div)
-{
-	size_t i;
-
-	i = 0;
-	while (n / div != 0)
-	{
-		n = n / div;
-		i++;
-	}
-	return (i + 1);
-}
 int main()
 {
+	int i;
 
-	//ft_printf("mine = |%-010.7d|\n", -12345);
-	ft_printf("mine = |%s|\n", 123456789);
-	
 
-	printf("orig = |%s|\n", 123456789);
+	ft_printf("mine%d", -2147483649); ft_putchar('\n');
+	printf("%d", -2147483649);
 
-	//printf("orig = |%-010.7d|\n", -123456789);
-
-//ft_atoi("1");
-
- //ft_putchar('\n');
 	return (0);
 }
+//шапка в ft_putstrlen.c
+
+//if printf("orig = {%-15Z}", 123);
+// mine = {              Z}
+// orig = {Z              }
+	// ft_printf("mine%d", -2147483649); ft_putchar('\n');
+	// printf("%d", -2147483649);
