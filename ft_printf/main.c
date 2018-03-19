@@ -18,16 +18,18 @@ int main()
 {
 	int i;
 
-
-	ft_printf("mine%d", -2147483649); ft_putchar('\n');
-	printf("%d", -2147483649);
-
+ft_printf("%#.o, %#.0o\n", 0, 0);
+printf("%#.o, %#.0o", 0, 0);
+//printf("%.4S", NULL);
 	return (0);
 }
-//шапка в ft_putstrlen.c
 
-//if printf("orig = {%-15Z}", 123);
-// mine = {              Z}
-// orig = {Z              }
 	// ft_printf("mine%d", -2147483649); ft_putchar('\n');
 	// printf("%d", -2147483649);
+	
+	
+	// ft_printf("{%03.2d}", 0);
+	// printf("{%03.2d}", 0);
+
+	// 	ft_printf("mine %.85jllz010", -2147483649); ft_putchar('\n');
+	// printf("orig %.85jllz010", -2147483649); ft_putchar('\n');

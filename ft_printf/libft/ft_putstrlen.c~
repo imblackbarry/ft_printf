@@ -6,7 +6,7 @@
 /*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 18:08:35 by vblokha           #+#    #+#             */
-/*   Updated: 2018/03/19 18:10:05 by vblokha          ###   ########.fr       */
+/*   Updated: 2018/03/19 18:08:45 by vblokha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 unsigned long long int ft_putstrlen(char* str, int len)
 {
-	int i;
+    int i;
     unsigned long long int r_len;
 
     r_len = 0;

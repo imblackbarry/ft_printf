@@ -78,7 +78,7 @@ unsigned long long int ft_unicode_2(unsigned long long int start)
 unsigned long long int	ft_unicode(unsigned long long int n)
 {
 	unsigned long long int r_len;
-
+	
 	r_len = 0;
 	if (n <= 127)
 		r_len = r_len + ft_putchar(n);
