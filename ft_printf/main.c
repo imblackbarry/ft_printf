@@ -13,13 +13,19 @@
 #include "ft_printf.h"
 #include <stdio.h>
 #include <limits.h>
+#include <locale.h>
 
 int main()
 {
 	int i;
-
-ft_printf("%#.o, %#.0o\n", 0, 0);
-printf("%#.o, %#.0o", 0, 0);
+	// setlocale(LC_CTYPE, "");
+	
+	ft_printf("{%03.2d}\n", 0);
+	printf("{%03.2d}", 0);
+// ft_printf("1 %#o\n", 0);
+// ft_printf("2 %o\n", 0);
+// printf("1 %#o\n", 0);
+// printf("2 %o\n", 0);
 //printf("%.4S", NULL);
 	return (0);
 }

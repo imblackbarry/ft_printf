@@ -300,21 +300,18 @@ void	ft_set_field_ch(t_shape **p)
 	int i;
 
 	i = 0;
-	if (ft_strchr((*p)->all_s, '-'))
-		(*p)->field_ch = ' ';
-	else
+	(*p)->field_ch = ' ';
+	while ((*p)->all_s[i])
 	{
-		while ((*p)->all_s[i])
-		{
-			if ((*p)->all_s[i] == '0' && (i == 0 || (!ft_isdigit((*p)->all_s[i - 1]) && (*p)->all_s[i - 1] != '.')))
-				break ;
-			i++;
-		}
-		if ((*p)->all_s[i] != '0')
-			(*p)->field_ch = ' ';
-		else
-			(*p)->field_ch = '0';
+		if ((*p)->all_s[i] == '0' && (i == 0 || (!ft_isdigit((*p)->all_s[i - 1]) && (*p)->all_s[i - 1] != '.')))
+			break ;
+		i++;
 	}
+	if (!(*p)->all_s[i] || ft_strchr((*p)->all_s, '-'))
+		(*p)->field_ch = ' ';
+	else if (!ft_strchr((*p)->all_s, '.'))
+		(*p)->field_ch = '0';
+	
 }
 int ft_all_precision(t_shape **p)
 {
@@ -357,7 +354,8 @@ int ft_all_s_width(t_shape **p)
 
 void	ft_set_width_and_precision_if_is_flags(t_shape **p, int type_width, int all_s_width)
 {
-	if ((*p)->conversion_ch == 'o')
+
+	if ((*p)->conversion_ch == 'o' || (*p)->conversion_ch == 'O')
 	{
 		if (ft_strchr((*p)->all_s, '#') && (*p)->precision <= 0)
 		{
@@ -365,7 +363,7 @@ void	ft_set_width_and_precision_if_is_flags(t_shape **p, int type_width, int all
 			(*p)->width--;
 		}
 	}
-	if ((*p)->conversion_ch == 'x' || (*p)->conversion_ch == 'X')
+	if (((*p)->conversion_ch == 'x' || (*p)->conversion_ch == 'X') && (*p)->u_arg)
 	{
 		if (ft_strchr((*p)->all_s, '#'))
 			(*p)->width = (*p)->width - 2;
@@ -400,10 +398,9 @@ void	ft_set_width_and_precision(t_shape **p)
 	type_width = ft_set_type_width(&(*p));
 	all_s_width = ft_all_s_width(&(*p));
 	all_s_precision = ft_all_precision(&(*p));
-
-
-
-	if (all_s_precision)
+	if ((!(*p)->s_arg || !(*p)->u_arg) && ((*p)->conversion_ch == 'd' && (*p)->field_ch != ' '))
+	 	type_width = 0;
+//	if (all_s_precision)
 		(*p)->precision = (all_s_precision > type_width) ? all_s_precision - type_width : 0;
 	if ((*p)->conversion_ch == 'c' || (*p)->conversion_ch == '%' || (*p)->conversion_ch == 'C')
 		(*p)->precision = 0;
@@ -412,19 +409,19 @@ void	ft_set_width_and_precision(t_shape **p)
 	if (all_s_width)
 		(*p)->width = (all_s_width - ((*p)->precision + type_width)) >= 0 ? (all_s_width - ((*p)->precision + type_width)) : 0;	
 	ft_set_width_and_precision_if_is_flags(p, type_width, all_s_width);
-	// if ((*p)->s_arg < 0 || (ft_strchr((*p)->all_s, '+') && ((*p)->conversion_ch == 'd' || (*p)->conversion_ch == 'i')) || (*p)->conversion_ch == '\0')
-	// 	(*p)->width--;
+
 	if ((*p)->conversion_ch == 'p' && all_s_width >= 2)
 		(*p)->width = (*p)->width - 2;
 	if ((*p)->conversion_ch == 's')
 	{
 		if (type_width > all_s_precision && ft_strchr((*p)->all_s, '.'))
 			(*p)->precision_str_arg = all_s_precision;
-		else
+		else if ((void*)(*p)->str_arg != NULL)
 			(*p)->precision_str_arg = type_width ;
 		(*p)->width = all_s_width - (*p)->precision_str_arg;
 		(*p)->precision = 0;
 	}
+
 
 }
 
@@ -479,18 +476,20 @@ unsigned long long int ft_show_xXoOp(t_shape **p)
 	unsigned long long int r_len;
 
 	r_len = 0;
-	if (ft_strchr((*p)->all_s, '.') && !(*p)->u_arg && (!(*p)->precision || ft_strchr((*p)->all_s, '#')))
-		return (r_len);
-	if ((*p)->conversion_ch == 'x')
+	if((*p)->conversion_ch == 'p')
+			r_len = r_len + ft_putstr(ft_itoa_base((*p)->u_arg, 16));
+	else if ((*p)->conversion_ch == 'x')
 		r_len = r_len + ft_putstr(ft_itoa_base((*p)->u_arg, 16));
 	else if ((*p)->conversion_ch == 'X')
 		r_len = r_len + ft_putstr(ft_strtoupper(ft_itoa_base((*p)->u_arg, 16)));
+	if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) && (!(*p)->u_arg))
+		return (r_len);
+		
 	else if((*p)->conversion_ch == 'o')
 		r_len = r_len + ft_putstr(ft_itoa_base((*p)->u_arg, 8));
 	else if((*p)->conversion_ch == 'O')
 		r_len = r_len + ft_putstr(ft_itoa_base((*p)->u_arg, 8));
-	else if((*p)->conversion_ch == 'p')
-			r_len = r_len + ft_putstr(ft_itoa_base((*p)->u_arg, 16));
+	
 	return (r_len);
 }
 
@@ -534,7 +533,7 @@ unsigned long long int ft_show_di(t_shape **p)
 	unsigned long long int r_len;
 
 	r_len = 0;
-	if (ft_strchr((*p)->all_s, '.') && !(*p)->u_arg && !(*p)->precision)
+	if (!(*p)->u_arg && (ft_strchr((*p)->all_s, '.') || (*p)->field_ch == '0' || ft_strchr((*p)->all_s, ' ')))
 		return (r_len);
 	else
 		r_len = r_len + ft_putnbr_u((*p)->u_arg);
@@ -580,8 +579,6 @@ unsigned long long int ft_show_arg(t_shape **p, t_show *head_show)
 	head_show = ft_search_show_lst(head_show, &(*p));
 	if (head_show == NULL)
 		return (r_len);
-	// if((*p)->conversion_ch == 'p')
-	// 	r_len = r_len + ft_putstr("0x");
 	r_len = r_len + head_show->function(&(*p));
 	return (r_len);
 }
@@ -605,7 +602,12 @@ unsigned long long int ft_show_0x(t_shape **p)
 	unsigned long long int r_len;
 
 	r_len = 0;
-	if((*p)->conversion_ch == 'p' || (ft_strchr((*p)->all_s, '#') && (*p)->conversion_ch == 'x'))
+	
+	if ((*p)->conversion_ch == 'p')
+		r_len = r_len + write(1, "0x", 2);
+	if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) && (!(*p)->u_arg))
+		return (r_len);	
+	if (ft_strchr((*p)->all_s, '#') && (*p)->conversion_ch == 'x')
 		r_len = r_len + write(1, "0x", 2);
 	else if ((*p)->conversion_ch == 'X' && ft_strchr((*p)->all_s, '#'))
 		r_len = r_len + write(1, "0X", 2);
@@ -694,6 +696,7 @@ void ft_start_to_set(t_shape **p)
 	{
 		(*p)->conversion_ch = 's';
 		(*p)->str_arg = "(null)";
+		//(*p)->precision_str_arg = 6;
 	}
 	ft_set_modifier(p);
 	ft_set_arg_with_modifier(p);

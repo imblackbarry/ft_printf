@@ -22,6 +22,6 @@ unsigned long long int ft_putstrlen(char* str, int len)
 	if (len <= 0)
 		return(r_len);
 	while (str[i] && i < len)
-        r_len = r_len + write(1, str + i++, 1);
-    return (r_len);
+		r_len = r_len + write(1, str + i++, 1);
+	return (r_len);
 }
