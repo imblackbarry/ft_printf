@@ -20,8 +20,8 @@ int main()
 	int i;
 	// setlocale(LC_CTYPE, "");
 	
-	ft_printf("{%03.2d}\n", 0);
-	printf("{%03.2d}", 0);
+	ft_printf("{%i}\n", 9);
+	printf("{%i}", 9);
 // ft_printf("1 %#o\n", 0);
 // ft_printf("2 %o\n", 0);
 // printf("1 %#o\n", 0);
