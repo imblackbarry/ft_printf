@@ -17,33 +17,40 @@
 
 int main()
 {
-	int i;
+	
 	 setlocale(LC_CTYPE, "");
 
 	// i = printf("str %d before %S", 11, L"abcde");
 	// printf("\n%d\n", i);
-ft_printf("{% 3d}\n", 0);
-   printf("{% 3d}", 0);
 
+
+
+
+	// ft_printf("|%15.5s|\n", "12");
+	// ft_printf("|%15.5s|\n", "12");
+// 	int i = ft_printf("%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C \
+// %C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C\
+// %C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C%C\n",
+// ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-',
+// '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';',
+// '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+// 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+// 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e',
+// 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+// 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}');	
+
+	// printf("\n%d", i);
+	//char	*seg;
+	//	ft_printf("mine %.85jllz010", -2147483649); ft_putchar('\n');
+	printf("orig %.85jllz010", -2147483649); ft_putchar('\n');
+	// ft_printf("%s %d %S \n", "bonjour ",  42,  L"لحم خنزير");//%%_________segm
+	// 	printf("%s %d %S   ", "bonjour ",  42,  L"لحم خنزير");
 //printf("%.4S", NULL);
 	return (0);
 }	
 	// ft_printf("{%03.2d}", 0);
 	// printf("{%03.2d}", 0);
 
-	// 	ft_printf("mine %.85jllz010", -2147483649); ft_putchar('\n');
-	// printf("orig %.85jllz010", -2147483649); ft_putchar('\n');
 
 
-// %-i 42 == -1020221536
-// %-d 42 == 15
-// %-i -42 == 15
-// %-4d 42 == |16  |
-// %-5d -42 == |19   |
-// | 42|42 |
-// %-4i 42 == |11  |
-
-// printf("|%d|\n", 
-// 	ft_printf("%15.5S", L"我是一只猫。"));
-// 	printf("|%d|", 
-// printf("%15.5S", L"我是一只猫。"));
+             
