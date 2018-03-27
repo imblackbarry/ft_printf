@@ -42,7 +42,8 @@ int main()
 	// printf("\n%d", i);
 	//char	*seg;
 	//	ft_printf("mine %.85jllz010", -2147483649); ft_putchar('\n');
-	printf("orig %.85jllz010", -2147483649); ft_putchar('\n');
+	ft_printf("{%30S}\n", L"我是一只猫。");
+	printf("{%30S}", L"我是一只猫。");
 	// ft_printf("%s %d %S \n", "bonjour ",  42,  L"لحم خنزير");//%%_________segm
 	// 	printf("%s %d %S   ", "bonjour ",  42,  L"لحم خنزير");
 //printf("%.4S", NULL);
@@ -50,7 +51,7 @@ int main()
 }	
 	// ft_printf("{%03.2d}", 0);
 	// printf("{%03.2d}", 0);
-
+//printf("orig %.85jllz010", -2147483649); ft_putchar('\n');
 
 
              

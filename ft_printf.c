@@ -87,7 +87,7 @@ int	ft_showed_unicode_width_S(t_shape **p)
 
 
 
-	printf("here\n");
+	//printf("here\n");
 
 
 
@@ -104,7 +104,7 @@ int	ft_showed_unicode_width_S(t_shape **p)
 int	ft_unicode_width(t_shape **p)
 {
 	int width;
-printf("here\n");
+//printf("here\n");
 	width = 0;
 	if ((*p)->conversion_ch == 'C')
 		width = ft_unicode_width_C(p);
