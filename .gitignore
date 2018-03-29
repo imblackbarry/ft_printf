@@ -2,9 +2,9 @@
 *.o
 libft/*.o
 libft/*~
-libftprintf.a
 libft/libft.a
+libftprintf.a
 a.out
-a.out.dSYM
-_DS_Store
-_DS_Store(1)
+*.dSYM
+.vscode
+.DS_Store
