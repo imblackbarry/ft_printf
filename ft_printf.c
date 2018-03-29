@@ -887,6 +887,7 @@ int	ft_printf(const char *s, ... )
 	char *cut_s;
 	static t_show *head_show = NULL;
 	char unsigned_arr[10] = "uUxXoOpCS";
+	char signed_arr[6] = "dicsD";
 
 	i = 0;
 	r_len = 0;
@@ -898,11 +899,12 @@ int	ft_printf(const char *s, ... )
 			i++;		
 			cut_s = ft_cut_one_arg_inf((char*)s + i);
 			head_show = ft_create_lst_to_show();
-			//printf("a");
 			if (ft_strrchr(unsigned_arr, cut_s[ft_strlen(cut_s) - 1]))
-					r_len = r_len + ft_u_start(cut_s, va_arg(v, unsigned long long int), head_show);
-			else
+				r_len = r_len + ft_u_start(cut_s, va_arg(v, unsigned long long int), head_show);
+			else if (ft_strrchr(signed_arr, cut_s[ft_strlen(cut_s) - 1]))
 				r_len = r_len + ft_s_start(cut_s, va_arg(v, long long int), head_show);
+			else
+				r_len = r_len + ft_s_start(cut_s, 0, head_show);
 			i += ft_search_posicion(((char*)s + i));
 			free(cut_s);
 		}
