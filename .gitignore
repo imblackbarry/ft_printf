@@ -1,0 +1,7 @@
+*~
+*.o
+libft/*.o
+libft/*~
+libftprintf.a
+libft/libft.a
+a.out
