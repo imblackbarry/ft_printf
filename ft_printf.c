@@ -338,7 +338,11 @@ void	ft_if_without_modifier(t_shape **p)
 		(*p)->s_arg = (long int)(*p)->s_arg;
 	else if ((*p)->conversion_ch == 'O' || (*p)->conversion_ch == 'U' || (*p)->conversion_ch == 'p')
 		(*p)->u_arg = (unsigned long)(*p)->u_arg;
-	else if ((*p)->conversion_ch == 'C' || (*p)->conversion_ch == 'S')
+	else if ((*p)->conversion_ch == 'C')
+	{
+		(*p)->u_arg = (int)(*p)->u_arg;
+	}
+	else if ((*p)->conversion_ch == 'S')
 		return ;
 	else if ((*p)->s_arg)
 	{
@@ -886,8 +890,8 @@ int	ft_printf(const char *s, ... )
 	int i;
 	char *cut_s;
 	static t_show *head_show = NULL;
-	char unsigned_arr[10] = "uUxXoOpCS";
-	char signed_arr[6] = "dicsD";
+	char unsigned_arr[8] = "uUxXoOp";
+	char signed_arr[8] = "dicsDCS";
 
 	i = 0;
 	r_len = 0;
