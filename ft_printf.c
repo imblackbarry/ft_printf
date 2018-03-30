@@ -309,6 +309,8 @@ void	ft_modifier_h(t_shape **p)
 {
 		if ((*p)->conversion_ch == 'D')
 			(*p)->s_arg = (unsigned long)(*p)->s_arg;
+		else if ((*p)->conversion_ch == 'U')
+			return ;
 		else if ((*p)->s_arg)
 		{
 			(*p)->s_arg = (short int)(*p)->s_arg;
@@ -489,6 +491,8 @@ void	ft_set_width_and_precision(t_shape **p)
 	
 	if ((!(*p)->s_arg || !(*p)->u_arg) && ((*p)->conversion_ch == 'd' && ((*p)->field_ch == ' ' && ft_strchr((*p)->all_s, '.'))))
 	 	type_width = 0;
+	if (!(*p)->u_arg && ((*p)->conversion_ch == 'x' || (*p)->conversion_ch == 'o') && ((*p)->field_ch == ' ' && ft_strchr((*p)->all_s, '.')))
+		type_width = 0;
 //	if (all_s_precision)
 	(*p)->precision = (all_s_precision > type_width) ? all_s_precision - type_width : 0;
 	if ((*p)->conversion_ch == 'c' || (*p)->conversion_ch == '%' || (*p)->conversion_ch == 'C')
