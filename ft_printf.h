@@ -30,7 +30,6 @@ typedef struct s_shape
 	int width;
 	int precision_str_arg;
 	char *modifier; //h (short/unsigned short) l(long [For d, i, o, u, x or X]) L(lonng double [For e, f, g or G ])
-	char *flags;//- +  # ' ' 0
 	int precision;
 	char conversion_ch;
 }			t_shape;
@@ -43,10 +42,10 @@ typedef struct s_show
 }			t_show;
 
 int	ft_printf(const char *s, ... );
-unsigned long long int ft_unicode_last_byte(unsigned long long int start);
-unsigned long long int ft_unicode_4(unsigned long long int start);
-unsigned long long int ft_unicode_3(unsigned long long int start);
-unsigned long long int ft_unicode_2(unsigned long long int start);
+unsigned long long int	ft_unicode_last_byte(unsigned long long int start);
+unsigned long long int	ft_unicode_4(unsigned long long int start);
+unsigned long long int	ft_unicode_3(unsigned long long int start);
+unsigned long long int	ft_unicode_2(unsigned long long int start);
 unsigned long long int	ft_unicode(unsigned long long int n);
 
 #endif

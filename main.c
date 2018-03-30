@@ -17,15 +17,17 @@
 
 int main()
 {
-	
-	// setlocale(LC_CTYPE, "");
+	int i;
+	int j;
+	 setlocale(LC_CTYPE, "");
 
 
+	i = ft_printf("mine --->a%Sb%sc%S\n", L"我", "42", L"猫");
+	j = printf("orig --->a%Sb%sc%S\n", L"我", "42", L"猫");
+	printf("\tft_printf = %d\n\tprintf = %d\n", i, j);
+//   ft_printf("%lC%lC%lC%lC\n", L'r', L'э', L'ф', L'r');
 
-
-  ft_printf("%hU\n", 4294967296);
-
-  printf("%hU", 4294967296);
+// printf("%C%C%C%C\n", L'r', L'э', L'ф', L'r');
 
 
 
@@ -37,8 +39,7 @@ int main()
 //printf("%.4S", NULL);
 	return (0);
 }	
-	// ft_printf("{%03.2d}", 0);
-	// printf("{%03.2d}", 0);
+
 //printf("orig %.85jllz010", -2147483649); ft_putchar('\n');
 
 

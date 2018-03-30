@@ -40,7 +40,6 @@ int	ft_u_num_width(unsigned long long int n, int div)
 
 int ft_unicode_width_one(unsigned long long n)
 {
-	// if (n <= (MB_CUR_MAX > 1 ? 127 : 255))
 	if (n <= 127)
 		return (1);
 	else if(n <= 2047)
@@ -83,15 +82,6 @@ int	ft_showed_unicode_width_S(t_shape **p)
 
 	width = 0;
 	k = 0;
-	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-
-	//printf("here\n");
-
-
-
-	//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	u = (int*)(*p)->u_arg;
 	while (u[k] && width + ft_unicode_width_one(u[k]) <= (*p)->precision_str_arg)
 	{
@@ -543,24 +533,14 @@ unsigned long long int ft_S_unicode(t_shape **p)
 	unsigned long long int r_len;
 	int k;
 	int* u;
-	int width;
 
 	k = 0;
 	r_len = 0;
-	width = 0;
-	//if int not *int
-	if ((void *)(*p)->u_arg == NULL && (*p)->conversion_ch == 'S')
-	{
-		//(*p)->conversion_ch = 's';
-		//(*p)->str_arg = "(null)";
-		return (6);
-	}
 	u = (int*)((*p)->u_arg);
 	while (u[k] && r_len + ft_unicode_width_one(u[k]) <= (*p)->precision_str_arg)
 	{
 		r_len = r_len + ft_unicode(u[k]);
 		k++;
-		//width = width + ;
 	}
 	return (r_len);
 }
@@ -571,11 +551,11 @@ unsigned long long int ft_S_unicode(t_shape **p)
 unsigned long long int ft_show_CS(t_shape **p)
 {
 	unsigned long long int r_len;
-	int k;
 	int* u;
 
-	k = 0;
 	r_len = 0;
+	// if (MB_CUR_MAX <= 1)
+
 	if((*p)->conversion_ch == 'C')
 		r_len = r_len + ft_unicode((*p)->u_arg);
 	else if ((*p)->conversion_ch == 'S')
@@ -810,12 +790,29 @@ void ft_start_to_set(t_shape **p)
 	{
 		(*p)->conversion_ch = 's';
 		(*p)->str_arg = "(null)";
-		//(*p)->precision_str_arg = 6;
 	}
 	ft_set_modifier(p);
 	ft_set_arg_with_modifier(p);
 	ft_set_field_ch_and_width_and_precision(p);
 	
+}
+
+void ft_free_t_shape(t_shape **p)
+{
+	// if ((*p)->str_arg)
+	// {
+	// 	free ((*p)->str_arg);
+	// 	(*p)->str_arg = NULL;
+	// }
+		free ((*p)->all_s);
+		(*p)->all_s = NULL;
+	// if ((*p)->modifier)
+	// {
+	// 	free ((*p)->modifier);
+	// 	(*p)->modifier = NULL;
+	// }
+	free(*p);
+
 }
 
 unsigned long long int ft_u_start(char *s, unsigned long long int n, t_show *head_show)
@@ -831,6 +828,7 @@ unsigned long long int ft_u_start(char *s, unsigned long long int n, t_show *hea
 	p->s_arg = 0;
 	ft_start_to_set(&p);
 	r_len = r_len + ft_start_to_show(&p, head_show);
+	ft_free_t_shape(&p);
 	return (r_len);
 }
 
@@ -854,6 +852,7 @@ unsigned long long int ft_s_start(char *s, signed long long int n, t_show *head_
 		p->str_arg = "";
 	ft_start_to_set(&p);
 	r_len = r_len + ft_start_to_show(&p, head_show);
+	ft_free_t_shape(&p);
 	return (r_len);
 }
 
@@ -887,13 +886,27 @@ t_show *ft_create_lst_to_show()
 	return (head);
 }
 
+void ft_free_head_show(t_show **head_show)
+{
+	t_show *tmp;
+
+	// while (*head_show)
+	// {
+	// 	free((*head_show)->str);
+	// 	//free((*head_show)->function);
+	// 	tmp = (*head_show);
+	// 	(*head_show) = (*head_show)->next;
+	// 	free(tmp);
+	// }
+}
+
 int	ft_printf(const char *s, ... )
 {
 	va_list	v;
 	unsigned long long int r_len;
 	int i;
 	char *cut_s;
-	static t_show *head_show = NULL;
+	t_show *head_show = NULL;
 	char unsigned_arr[8] = "uUxXoOp";
 	char signed_arr[8] = "dicsDCS";
 
@@ -920,6 +933,7 @@ int	ft_printf(const char *s, ... )
 			r_len = r_len + write(1, s + i, 1);
 		i++;
 	}
+	ft_free_head_show(&head_show);
 	va_end(v);
 	return r_len;
 }
