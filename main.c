@@ -19,15 +19,19 @@ int main()
 {
 	int i;
 	int j;
-	 setlocale(LC_CTYPE, "");
+	//setlocale(LC_CTYPE, "");
 
 
-	i = ft_printf("mine --->a%Sb%sc%S\n", L"我", "42", L"猫");
-	j = printf("orig --->a%Sb%sc%S\n", L"我", "42", L"猫");
+	// i = ft_printf("mine |%03C|%C%C\n", L'r', L'э', L'ф' );
+	// j = printf("orig |%03C|%C%C\n", L'r', L'э', L'ф' );
+
+
+	i = ft_printf("%s%zi", "", 42);
+	j = printf("%s%zi", "", 42);
 	printf("\tft_printf = %d\n\tprintf = %d\n", i, j);
-//   ft_printf("%lC%lC%lC%lC\n", L'r', L'э', L'ф', L'r');
+//   
 
-// printf("%C%C%C%C\n", L'r', L'э', L'ф', L'r');
+// 
 
 
 

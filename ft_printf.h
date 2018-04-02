@@ -37,15 +37,15 @@ typedef struct s_shape
 typedef struct s_show
 {
 	char *str;
-	unsigned long long int (*function)(t_shape **shape_lst);
+	int (*function)(t_shape **shape_lst);
 	struct s_show *next;
 }			t_show;
 
 int	ft_printf(const char *s, ... );
-unsigned long long int	ft_unicode_last_byte(unsigned long long int start);
-unsigned long long int	ft_unicode_4(unsigned long long int start);
-unsigned long long int	ft_unicode_3(unsigned long long int start);
-unsigned long long int	ft_unicode_2(unsigned long long int start);
-unsigned long long int	ft_unicode(unsigned long long int n);
+int	ft_unicode_last_byte(unsigned long long int start);
+int	ft_unicode_4(unsigned long long int start);
+int	ft_unicode_3(unsigned long long int start);
+int	ft_unicode_2(unsigned long long int start);
+int	ft_unicode(unsigned long long int n);
 
 #endif

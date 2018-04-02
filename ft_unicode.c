@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-unsigned long long int ft_unicode_last_byte(unsigned long long int start)
+int ft_unicode_last_byte(unsigned long long int start)
 {
 	unsigned long long int to_right;
 	unsigned long long int to_left;
@@ -22,13 +22,13 @@ unsigned long long int ft_unicode_last_byte(unsigned long long int start)
 	return (128 | (to_right ^ start));
 }
 
-unsigned long long int ft_unicode_4(unsigned long long int start)
+int ft_unicode_4(unsigned long long int start)
 {
 	unsigned long long int a;
 	unsigned long long int b;
 	unsigned long long int c;
 	unsigned long long int d;
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	a = 240 | start >> 18;
@@ -42,12 +42,12 @@ unsigned long long int ft_unicode_4(unsigned long long int start)
 	return (r_len);
 }
 
-unsigned long long int ft_unicode_3(unsigned long long int start)
+int ft_unicode_3(unsigned long long int start)
 {
 	unsigned long long int a;
 	unsigned long long int b;
 	unsigned long long int c;
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	a = 224 | start >> 12;
@@ -59,12 +59,12 @@ unsigned long long int ft_unicode_3(unsigned long long int start)
 	return (r_len);
 }
 
-unsigned long long int ft_unicode_2(unsigned long long int start)
+int ft_unicode_2(unsigned long long int start)
 {
 	unsigned long long int a;
 	unsigned long long int b;
 	unsigned long long int to_left;
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	to_left = start >> 6;
@@ -75,25 +75,33 @@ unsigned long long int ft_unicode_2(unsigned long long int start)
 	return (r_len);
 }
 
-unsigned long long int	ft_unicode(unsigned long long int n)
+int	ft_unicode(unsigned long long int n)
 {
-	unsigned long long int r_len;
+	int r_len;
 	
 	
 
 	r_len = 0;
-	// if (MB_CUR_MAX < 1)
+	//printf("MB_CUR_MAX------> %d\n", MB_CUR_MAX);
+	// if (MB_CUR_MAX == 1)
 	// {
-	// 	r_len = r_len + ft_putchar(n);
-	// 	return (1);
+	// 	if (n <= 255)
+	// 		r_len = r_len + ft_putchar(n);
+	// 	else
+	// 		return (-1);
 	// }
-	if (n <= 127)
-		r_len = r_len + ft_putchar(n);
-	else if(n <= 2047)
-		r_len = r_len + ft_unicode_2(n);
-	else if(n <= 65535)
-	 	r_len = r_len + ft_unicode_3(n);
-	else if(n <= 2097151)
-		r_len = r_len + ft_unicode_4(n);
+	// else
+	
+	//{
+		if (n <= 127)
+			r_len = r_len + ft_putchar(n);
+		else if(n <= 2047)
+			r_len = r_len + ft_unicode_2(n);
+		else if(n <= 65535)
+			r_len = r_len + ft_unicode_3(n);
+		else if(n <= 2097151)
+			r_len = r_len + ft_unicode_4(n);
+	//}
 	return (r_len);
+	
 }

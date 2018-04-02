@@ -528,9 +528,9 @@ void ft_set_field_ch_and_width_and_precision(t_shape **p)
 	
 }
 
-unsigned long long int ft_S_unicode(t_shape **p)
+int ft_S_unicode(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 	int k;
 	int* u;
 
@@ -539,6 +539,8 @@ unsigned long long int ft_S_unicode(t_shape **p)
 	u = (int*)((*p)->u_arg);
 	while (u[k] && r_len + ft_unicode_width_one(u[k]) <= (*p)->precision_str_arg)
 	{
+		if (MB_CUR_MAX == 1 && u[k] > 255)
+			return (-1);
 		r_len = r_len + ft_unicode(u[k]);
 		k++;
 	}
@@ -548,24 +550,28 @@ unsigned long long int ft_S_unicode(t_shape **p)
 //*************************************************************************
 // if (ft_strchr((*p)->all_s, '.') && !(*p)->u_arg && !(*p)->precision)
 // 		return (r_len); 	looook	 YOU CAN DO IT EARLIER
-unsigned long long int ft_show_CS(t_shape **p)
+int ft_show_CS(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 	int* u;
 
 	r_len = 0;
-	// if (MB_CUR_MAX <= 1)
+	// if (MB_CUR_MAX == 1)
+	// {
+	// 	if (n <= 255)
+	// 		r_len = r_len + ft_putchar(n);
+
+	// }
 
 	if((*p)->conversion_ch == 'C')
-		r_len = r_len + ft_unicode((*p)->u_arg);
+		r_len = ft_unicode((*p)->u_arg);
 	else if ((*p)->conversion_ch == 'S')
-	//&& (*p)->field_ch != '0')
-		r_len = r_len + ft_S_unicode(p);
+		r_len = ft_S_unicode(p);
 	return (r_len);
 }
-unsigned long long int ft_show_xXoOp(t_shape **p)
+int ft_show_xXoOp(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	if (!(*p)->u_arg && (ft_strchr((*p)->all_s, '.') && !(*p)->precision))
@@ -587,9 +593,9 @@ unsigned long long int ft_show_xXoOp(t_shape **p)
 	return (r_len);
 }
 
-unsigned long long int ft_show_uUD(t_shape **p)
+int ft_show_uUD(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	if (!(*p)->u_arg && (ft_strchr((*p)->all_s, '.')))
@@ -610,9 +616,9 @@ t_show *ft_search_show_lst (t_show *head_show, t_shape **p)
 	return (head_show);
 }
 
-unsigned long long int ft_show_cs(t_shape **p)
+	int ft_show_cs(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	if ((*p)->conversion_ch == 'c')
@@ -622,9 +628,9 @@ unsigned long long int ft_show_cs(t_shape **p)
 	return (r_len);	
 }
 
-unsigned long long int ft_show_di(t_shape **p)
+int ft_show_di(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	if (!(*p)->u_arg && (ft_strchr((*p)->all_s, '.')))
@@ -634,9 +640,9 @@ unsigned long long int ft_show_di(t_shape **p)
 	return (r_len);
 }
 
-unsigned long long int ft_show_sign(t_shape **p)
+int ft_show_sign(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 	r_len = 0;
 
 	if ((*p)->s_arg < 0 && ((*p)->conversion_ch == 'd'))
@@ -650,9 +656,9 @@ unsigned long long int ft_show_sign(t_shape **p)
 	return (r_len);
 }
 
-unsigned long long int ft_show_precision(t_shape **p)
+int ft_show_precision(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 	int i;
 
 	i = 0;
@@ -665,9 +671,9 @@ unsigned long long int ft_show_precision(t_shape **p)
 	return (r_len);
 }
 
-unsigned long long int ft_show_arg(t_shape **p, t_show *head_show)
+int ft_show_arg(t_shape **p, t_show *head_show)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	head_show = ft_search_show_lst(head_show, &(*p));
@@ -677,9 +683,9 @@ unsigned long long int ft_show_arg(t_shape **p, t_show *head_show)
 	return (r_len);
 }
 
-unsigned long long int ft_show_width(t_shape **p)
+int ft_show_width(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 	int i;
 
 	i = 0;
@@ -691,9 +697,9 @@ unsigned long long int ft_show_width(t_shape **p)
 	}
 	return (r_len);
 }
-unsigned long long int ft_show_0x(t_shape **p)
+int ft_show_0x(t_shape **p)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	
@@ -707,9 +713,9 @@ unsigned long long int ft_show_0x(t_shape **p)
 		r_len = r_len + write(1, "0X", 2);
 	return (r_len);
 }
-unsigned long long int ft_show_if_is_minus(t_shape **p, t_show *head_show)
+int ft_show_if_is_minus(t_shape **p, t_show *head_show)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	r_len = r_len + ft_show_sign(p);
@@ -719,9 +725,9 @@ unsigned long long int ft_show_if_is_minus(t_shape **p, t_show *head_show)
 	r_len = r_len + ft_show_width(p);
 	return (r_len);
 }
-unsigned long long int ft_show_if_is_not_minus_and_field_ch_is_zero(t_shape **p, t_show *head_show)
+int ft_show_if_is_not_minus_and_field_ch_is_zero(t_shape **p, t_show *head_show)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	r_len = r_len + ft_show_0x(p);
@@ -732,9 +738,9 @@ unsigned long long int ft_show_if_is_not_minus_and_field_ch_is_zero(t_shape **p,
 	return (r_len);
 
 }
-unsigned long long int ft_show_if_is_not_minus_and_field_ch_is_not_zero(t_shape **p, t_show *head_show)
+int ft_show_if_is_not_minus_and_field_ch_is_not_zero(t_shape **p, t_show *head_show)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	r_len = r_len + ft_show_width(&(*p));
@@ -744,9 +750,10 @@ unsigned long long int ft_show_if_is_not_minus_and_field_ch_is_not_zero(t_shape 
 	r_len = r_len + ft_show_arg(&(*p), head_show);
 	return (r_len);
 }
-unsigned long long int ft_show_if_is_not_minus(t_shape **p, t_show *head_show)
+
+int ft_show_if_is_not_minus(t_shape **p, t_show *head_show)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	if ((*p)->field_ch == '0')
@@ -756,31 +763,17 @@ unsigned long long int ft_show_if_is_not_minus(t_shape **p, t_show *head_show)
 	return (r_len);
 }
 
-unsigned long long int ft_start_to_show(t_shape **p, t_show *head_show)
+int ft_start_to_show(t_shape **p, t_show *head_show)
 {
-	unsigned long long int r_len;
+	int r_len;
 
 	r_len = 0;
 	if (ft_strchr((*p)->all_s, '-'))
-		r_len = ft_show_if_is_minus(&(*p), head_show);
+		r_len = ft_show_if_is_minus(p, head_show);
 	else
-		r_len = ft_show_if_is_not_minus(&(*p), head_show);
+		r_len = ft_show_if_is_not_minus(p, head_show);
 	return (r_len);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void ft_start_to_set(t_shape **p)
 {
@@ -799,25 +792,21 @@ void ft_start_to_set(t_shape **p)
 
 void ft_free_t_shape(t_shape **p)
 {
-	// if ((*p)->str_arg)
-	// {
-	// 	free ((*p)->str_arg);
-	// 	(*p)->str_arg = NULL;
-	// }
-		free ((*p)->all_s);
-		(*p)->all_s = NULL;
-	// if ((*p)->modifier)
-	// {
-	// 	free ((*p)->modifier);
-	// 	(*p)->modifier = NULL;
-	// }
+	//if ((*p)->str_arg)
+	//{
+		//free ((*p)->str_arg);
+		//(*p)->str_arg = NULL;
+	//}
+	free ((*p)->all_s);
+	(*p)->all_s = NULL;
 	free(*p);
+	*p = NULL;
 
 }
 
-unsigned long long int ft_u_start(char *s, unsigned long long int n, t_show *head_show)
+int ft_u_start(char *s, unsigned long long int n, t_show *head_show)
 {
-	unsigned long long int r_len;
+	int r_len;
 	t_shape *p;
 
 	r_len = 0;
@@ -836,9 +825,9 @@ unsigned long long int ft_u_start(char *s, unsigned long long int n, t_show *hea
 
 
 
-unsigned long long int ft_s_start(char *s, signed long long int n, t_show *head_show)
+int ft_s_start(char *s, signed long long int n, t_show *head_show)
 {
-	unsigned long long int r_len;
+	int r_len;
 	t_shape *p;
 
 	r_len = 0;
@@ -856,7 +845,7 @@ unsigned long long int ft_s_start(char *s, signed long long int n, t_show *head_
 	return (r_len);
 }
 
-t_show *ft_new_lst_to_show(char *str, unsigned long long int (*f)(t_shape **shape_lst))
+t_show *ft_new_lst_to_show(char *str, int (*f)(t_shape **shape_lst))
 {
 	t_show *new;
 
@@ -871,7 +860,7 @@ t_show *ft_new_lst_to_show(char *str, unsigned long long int (*f)(t_shape **shap
 
 t_show *ft_create_lst_to_show()
 {
-	static t_show *show_lst;
+	t_show *show_lst;
 	t_show *head;
 
 	show_lst = ft_new_lst_to_show("di", ft_show_di);
@@ -890,50 +879,61 @@ void ft_free_head_show(t_show **head_show)
 {
 	t_show *tmp;
 
-	// while (*head_show)
-	// {
-	// 	free((*head_show)->str);
-	// 	//free((*head_show)->function);
-	// 	tmp = (*head_show);
-	// 	(*head_show) = (*head_show)->next;
-	// 	free(tmp);
-	// }
+//printf("lst = %s\n", (*head_show)->str);
+	while ((*head_show)->next)
+	{
+		tmp = (*head_show);
+		(*head_show) = (*head_show)->next;
+		free(tmp->str);
+		tmp->str = NULL;
+		tmp->function = NULL;
+//free(tmp);
+	 	tmp = NULL;
+	 }
 }
 
 int	ft_printf(const char *s, ... )
 {
 	va_list	v;
-	unsigned long long int r_len;
+	int trouble;
+	int r_len;
 	int i;
 	char *cut_s;
-	t_show *head_show = NULL;
-	char unsigned_arr[8] = "uUxXoOp";
-	char signed_arr[8] = "dicsDCS";
+	static t_show *head_show = NULL;
 
 	i = 0;
 	r_len = 0;
 	va_start(v, s);
+	head_show = ft_create_lst_to_show();
 	while (s[i])
 	{
+		trouble = r_len;
 		if (s[i] == '%')
 		{
 			i++;		
 			cut_s = ft_cut_one_arg_inf((char*)s + i);
-			head_show = ft_create_lst_to_show();
-			if (ft_strrchr(unsigned_arr, cut_s[ft_strlen(cut_s) - 1]))
+			if (ft_strrchr("uUxXoOpCS", cut_s[ft_strlen(cut_s) - 1]))
 				r_len = r_len + ft_u_start(cut_s, va_arg(v, unsigned long long int), head_show);
-			else if (ft_strrchr(signed_arr, cut_s[ft_strlen(cut_s) - 1]))
+			else if (ft_strrchr("dicsD", cut_s[ft_strlen(cut_s) - 1]))
 				r_len = r_len + ft_s_start(cut_s, va_arg(v, long long int), head_show);
 			else
-				r_len = r_len + ft_s_start(cut_s, 0, head_show);
+				r_len = r_len + ft_s_start(cut_s, 0, head_show);	
 			i += ft_search_posicion(((char*)s + i));
 			free(cut_s);
+			//cut_s = NULL;
 		}
 		else
+		{
+			
 			r_len = r_len + write(1, s + i, 1);
+			
+		}
+		// if (trouble >= r_len)
+		// 		return (-1);
 		i++;
 	}
-	ft_free_head_show(&head_show);
+	
 	va_end(v);
+	ft_free_head_show(&head_show);
 	return r_len;
 }
