@@ -599,13 +599,15 @@ int ft_show_xXoOp(t_shape **p)
 		str = ft_itoa_base((*p)->u_arg, 16);
 	else if ((*p)->conversion_ch == 'X')
 		str = ft_strtoupper(ft_itoa_base((*p)->u_arg, 16));
-	if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) && (!(*p)->u_arg))
-	{
-		ft_strdel(&str);
-		return (r_len);
-	}
-	if ((*p)->conversion_ch == 'x')
+	else if ((*p)->conversion_ch == 'x')
 		str = ft_itoa_base((*p)->u_arg, 16);
+		
+	//  if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) && (!(*p)->u_arg))
+	// {
+	// 	ft_strdel(&str);
+	// 	return (r_len);
+	// }
+	
 	else if((*p)->conversion_ch == 'o')
 		str = ft_itoa_base((*p)->u_arg, 8);
 	else if((*p)->conversion_ch == 'O')

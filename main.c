@@ -26,8 +26,10 @@ int main()
 	// i = ft_printf("mine |%03C|%C%C\n", L'r', L'э', L'ф' );
 	// j = printf("orig |%03C|%C%C\n", L'r', L'э', L'ф' );
 
-	i = ft_printf(".%#x\n", 0);
+	i = ft_printf("%#x\n", 0);
 	j = printf("%#x\n", 0);
+		i = ft_printf("%#o\n", 0);
+	j = printf("%#o\n", 0);
 	printf("\tft_printf = %d\n\tprintf = %d\n", i, j);
 
 
