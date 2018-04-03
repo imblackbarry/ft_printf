@@ -23,8 +23,8 @@ int main()
 	//setlocale(LC_CTYPE, "");
 
 
-	i = ft_printf("\nmine |%C||||||%C%C\n", L'r', L'э', L'ф' );
-	j = printf("orig |%C||||||%C%C\n", L'r', L'э', L'ф' );
+	i = ft_printf("\nmine |%lc\n", L'ф' );
+	j = printf("orig |%lc\n", L'ф' );
 
 	printf("\tft_printf = %d\n\tprintf = %d\n", i, j);
 
