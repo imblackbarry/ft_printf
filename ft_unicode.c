@@ -93,7 +93,7 @@ int	ft_unicode(unsigned long long int n)
 	// else
 	
 	//{
-	if (MB_CUR_MAX == 1 && n > 255)
+	if (MB_CUR_MAX == 1 && n > 255 && n >= 0)
 	{
 		write(1, (char*)n, 1);
 		return (-r_len);
