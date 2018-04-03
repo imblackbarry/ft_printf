@@ -574,7 +574,7 @@ int ft_show_CS(t_shape **p)
 	// }
 
 	if((*p)->conversion_ch == 'C')
-		r_len = ft_unicode((*p)->u_arg);
+		r_len = ft_unicode((int)(*p)->u_arg);
 	else if ((*p)->conversion_ch == 'S')
 		r_len = ft_S_unicode(p);
 	return (r_len);
