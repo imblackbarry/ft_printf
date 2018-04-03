@@ -93,14 +93,16 @@ int	ft_unicode(unsigned long long int n)
 	// else
 	
 	//{
-		if (n <= 127)
-			r_len = r_len + ft_putchar(n);
-		else if(n <= 2047)
-			r_len = r_len + ft_unicode_2(n);
-		else if(n <= 65535)
-			r_len = r_len + ft_unicode_3(n);
-		else if(n <= 2097151)
-			r_len = r_len + ft_unicode_4(n);
+	if (MB_CUR_MAX == 1 && n > 255)
+		return (-r_len);
+	if (n <= 127)
+		r_len = r_len + ft_putchar(n);
+	else if(n <= 2047)
+		r_len = r_len + ft_unicode_2(n);
+	else if(n <= 65535)
+		r_len = r_len + ft_unicode_3(n);
+	else if(n <= 2097151)
+		r_len = r_len + ft_unicode_4(n);
 	//}
 	return (r_len);
 	

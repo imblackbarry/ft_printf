@@ -180,11 +180,6 @@ int	ft_search_posicion(char *s)
 	else
 		return (i);
 }
-//*******************************************************************************************
-//*																							*
-//*							FREE															*
-//*							↙	️															*
-//*******************************************************************************************
 t_shape *ft_newshape(char *s)
 {
 	t_shape *new;
@@ -457,7 +452,7 @@ void	ft_set_width_and_precision_if_is_flags(t_shape **p, int type_width, int all
 			(*p)->width--;
 		}
 	}
-	if (((*p)->conversion_ch == 'x' || (*p)->conversion_ch == 'X'))
+	if (((*p)->conversion_ch == 'x' || (*p)->conversion_ch == 'X') && (*p)->u_arg)
 	{
 		if (ft_strchr((*p)->all_s, '#'))
 			(*p)->width = (*p)->width - 2;
@@ -557,20 +552,15 @@ int ft_S_unicode(t_shape **p)
 	while (u[k] && r_len + ft_unicode_width_one(u[k]) <= (*p)->precision_str_arg)
 	{
 		if (MB_CUR_MAX == 1 && u[k] > 255)
-			return (-1);
+			return (-r_len);
 		r_len = r_len + ft_unicode(u[k]);
 		k++;
 	}
 	return (r_len);
 }
-
-//*************************************************************************
-// if (ft_strchr((*p)->all_s, '.') && !(*p)->u_arg && !(*p)->precision)
-// 		return (r_len); 	looook	 YOU CAN DO IT EARLIER
 int ft_show_CS(t_shape **p)
 {
 	int r_len;
-	int* u;
 
 	r_len = 0;
 	// if (MB_CUR_MAX == 1)
@@ -586,7 +576,7 @@ int ft_show_CS(t_shape **p)
 		r_len = ft_S_unicode(p);
 	return (r_len);
 }
-int ft_show_xXoOp(t_shape **p)
+int ft_show_xXp(t_shape **p)
 {
 	int r_len;
 	char *str;
@@ -601,20 +591,26 @@ int ft_show_xXoOp(t_shape **p)
 		str = ft_strtoupper(ft_itoa_base((*p)->u_arg, 16));
 	else if ((*p)->conversion_ch == 'x')
 		str = ft_itoa_base((*p)->u_arg, 16);
-		
-	//  if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) && (!(*p)->u_arg))
-	// {
-	// 	ft_strdel(&str);
-	// 	return (r_len);
-	// }
-	
+	r_len = ft_putstr(str);
+	ft_strdel(&str);
+	return (r_len);
+}
+
+int ft_show_oO(t_shape **p)
+{
+	int r_len;
+	char *str;
+
+	r_len = 0;
+	str = NULL;
+	if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) && (!(*p)->u_arg))
+		return (r_len);
 	else if((*p)->conversion_ch == 'o')
 		str = ft_itoa_base((*p)->u_arg, 8);
 	else if((*p)->conversion_ch == 'O')
 		str = ft_itoa_base((*p)->u_arg, 8);
 	r_len = ft_putstr(str);
-	if (str)
-		free(str);
+	ft_strdel(&str);
 	return (r_len);
 }
 
@@ -901,7 +897,9 @@ t_show *ft_create_lst_to_show()
 	show_lst = show_lst->next;
 	show_lst->next = ft_new_lst_to_show("uUD", ft_show_uUD);
 	show_lst = show_lst->next;
-	show_lst->next = ft_new_lst_to_show("xXoOp", ft_show_xXoOp);
+	show_lst->next = ft_new_lst_to_show("xXp", ft_show_xXp);
+	show_lst = show_lst->next;
+	show_lst->next = ft_new_lst_to_show("oO", ft_show_oO);
 	show_lst = show_lst->next;
 	show_lst->next = ft_new_lst_to_show("CS%", ft_show_CS);
 	return (head);
@@ -954,15 +952,16 @@ int	ft_printf(const char *s, ... )
 				r_len = r_len + ft_s_start(cut_s, 0, head_show);	
 			i += ft_search_posicion(((char*)s + i));
 			ft_strdel(&cut_s);
+		if (trouble >= r_len)
+			return (-1);
 		}
+		
 		else
 		{
-			
 			r_len = r_len + write(1, s + i, 1);
 			
 		}
-		// if (trouble >= r_len)
-		// 		return (-1);
+		
 		i++;
 	}
 	
