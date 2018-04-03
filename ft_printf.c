@@ -551,8 +551,11 @@ int ft_S_unicode(t_shape **p)
 	u = (int*)((*p)->u_arg);
 	while (u[k] && r_len + ft_unicode_width_one(u[k]) <= (*p)->precision_str_arg)
 	{
-		if (MB_CUR_MAX == 1 && u[k] > 255)
+		if (MB_CUR_MAX == 1 && u[k] > 255 && u[k] < 0)
+		{
+			write(1, u + k, 1);
 			return (-r_len);
+		}
 		r_len = r_len + ft_unicode(u[k]);
 		k++;
 	}
