@@ -934,15 +934,37 @@ void ft_free_head_show(t_show **head_show)
 	 	(*head_show) = NULL;
 	// }
 }
+int ft_printf_second(va_list	v, char *cut_s, int i, t_show *head_show)
+{
+	int r_len;
 
+	r_len = 0;
+	if (ft_strrchr("uUxXoOpCS", cut_s[ft_strlen(cut_s) - 1]))
+		r_len = ft_u_start(cut_s, va_arg(v, unsigned long long int), head_show);
+	else if (ft_strrchr("dicsD", cut_s[ft_strlen(cut_s) - 1]))
+		r_len = ft_s_start(cut_s, va_arg(v, long long int), head_show);
+	else
+		r_len = ft_s_start(cut_s, 0, head_show);	
+	return (r_len);
+}
+
+int	ft_printf_first(int i, const char *s, t_show *head_show, va_list v)
+{
+	int r_len;
+	char *cut_s;
+
+	r_len = 0;
+	cut_s = ft_cut_one_arg_inf((char*)s + i);
+	r_len = r_len + ft_printf_second(v, cut_s, i, head_show);
+	ft_strdel(&cut_s);
+	return (r_len);
+}
 int	ft_printf(const char *s, ... )
 {
 	va_list	v;
-	int trouble;
 	int r_len;
 	int i;
-	char *cut_s;
-	static t_show *head_show = NULL;
+	t_show *head_show;
 
 	i = 0;
 	r_len = 0;
@@ -950,31 +972,15 @@ int	ft_printf(const char *s, ... )
 	head_show = ft_create_lst_to_show();
 	while (s[i])
 	{
-		trouble = r_len;
 		if (s[i] == '%')
 		{
-			i++;		
-			cut_s = ft_cut_one_arg_inf((char*)s + i);
-			if (ft_strrchr("uUxXoOpCS", cut_s[ft_strlen(cut_s) - 1]))
-				r_len = r_len + ft_u_start(cut_s, va_arg(v, unsigned long long int), head_show);
-			else if (ft_strrchr("dicsD", cut_s[ft_strlen(cut_s) - 1]))
-				r_len = r_len + ft_s_start(cut_s, va_arg(v, long long int), head_show);
-			else
-				r_len = r_len + ft_s_start(cut_s, 0, head_show);	
+			r_len = r_len + ft_printf_first(++i, s, head_show, v);
 			i += ft_search_posicion(((char*)s + i));
-			ft_strdel(&cut_s);
 		}
 		else
-		{
-			
 			r_len = r_len + write(1, s + i, 1);
-			
-		}
-		// if (trouble >= r_len)
-		// 		return (-1);
 		i++;
 	}
-	
 	va_end(v);
 	ft_free_head_show(&head_show);
 	return r_len;
