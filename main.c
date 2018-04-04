@@ -20,13 +20,15 @@ int main()
 {
 	int i;
 	int j;
+	char *b;
 	//setlocale(LC_CTYPE, "");
 
 
-	i = ft_printf("\nmine |   %#x\n",  0);
-	j = printf("orig |   %#x\n", 0);
-
-	printf("\tft_printf = %d\n\tprintf = %d\n", i, j);
+	i = ft_printf("mine %.85jll010", -2147483649); ft_putchar('\n');
+	j = printf("orig %.85jll010", -2147483649); ft_putchar('\n');
+	//b = ft_itoa_base(4567, 2);
+//	printf("%s\n", b);
+	//printf("\tft_printf = %d\n\tprintf = %d\n", i, j);
 
 
 //   ft_printf("%x\n", 505);
@@ -59,7 +61,7 @@ int main()
 	return (0);
 }
 
-//printf("orig %.85jllz010", -2147483649); ft_putchar('\n');
+//
 
 
 // 0       ft_printf = 0

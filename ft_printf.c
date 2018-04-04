@@ -117,6 +117,8 @@ int	ft_set_type_width(t_shape **p)
 		return (ft_u_num_width((*p)->u_arg, 8));
 	else if ((*p)->conversion_ch == 'p')
 		return (ft_u_num_width((*p)->u_arg, 16));
+	else if ((*p)->conversion_ch == 'b')
+		return (ft_u_num_width((*p)->u_arg, 2));
 	else if ((*p)->conversion_ch == 'c')
 		return (1);
 	else if ((*p)->conversion_ch == 's')
@@ -136,9 +138,9 @@ int	ft_set_type_width(t_shape **p)
 //*******************************************************************************************
 char	*ft_cut_one_arg_inf(char *s) //check
 {
-	char conversion_chs[16] = "sSpdDioOuUxXcC%";
+	char conversion_chs[16] = "sSpdDioOuUxXcC%b";
 	char modifiers[7] = "hljzLt";
-	char flags[8] = "-+# *0.";
+	char flags[8] = "!-+# 0.";
 	int i;
 	char *cut_s;
 
@@ -159,9 +161,9 @@ char	*ft_cut_one_arg_inf(char *s) //check
 
 int	ft_search_posicion(char *s)
 {
-	char conversion_chs[16] = "sSpdDioOuUxXcC%";
+	char conversion_chs[16] = "sSpdDioOuUxXcC%b";
 	char modifiers[7] = "hljzLt";
-	char flags[8] = "-+# *0.";
+	char flags[8] = "!-+# 0.";
 	int i;
 	char *cut_s;
 
@@ -244,7 +246,7 @@ void	ft_set_modifier(t_shape **p)
 
 void	ft_set_conversion_ch(t_shape **p)
 {
-	char conversion_chs[15] = "sSpdDioOuUxXcC";
+	char conversion_chs[15] = "sSpdDioOuUxXcCb";
 	int i;
 	char *s;
 	char* status;
@@ -407,7 +409,23 @@ void	ft_set_field_ch(t_shape **p)
 	
 	
 }
-int ft_all_s_precision(t_shape **p)
+
+int ft_precision_star(va_list v, t_shape **p, int i)
+{
+	int star_precision;
+
+	star_precision = 0;
+	star_precision = (*p)->s_arg == 0 ? (*p)->u_arg : (*p)->s_arg;
+	while((*p)->all_s[i] == '*')
+	{
+		//v = v->next;
+		(*p)->s_arg = va_arg(v, long long int);
+		i++;
+	}
+	return (star_precision);
+}
+
+int ft_all_s_precision(va_list v, t_shape **p)
 {
 	int i;
 
@@ -417,14 +435,17 @@ int ft_all_s_precision(t_shape **p)
 		if ((*p)->all_s[i] == '.')
 		{
 			i++;
+			if ((*p)->all_s[i] == '*')
+				return (ft_precision_star(v, p, i));
 			return (ft_atoi((*p)->all_s + i));
 		}
 		i++;
 	}
+
 	return (0);
 }
 
-int ft_all_s_width(t_shape **p)
+int ft_all_s_width(va_list v, t_shape **p)
 {
 	int i;
 
@@ -483,7 +504,7 @@ void	ft_set_width_and_precision_if_is_flags(t_shape **p, int type_width, int all
 	
 }
 
-void	ft_set_width_and_precision(t_shape **p)
+void	ft_set_width_and_precision(va_list v, t_shape **p)
 {
 	int type_width;
 	int all_s_width;
@@ -491,28 +512,20 @@ void	ft_set_width_and_precision(t_shape **p)
 
 	
 	type_width = ft_set_type_width(p);
-	//printf("next?\n");
-	all_s_width = ft_all_s_width(p);
-	all_s_precision = ft_all_s_precision(p);
+	all_s_width = ft_all_s_width(v, p);
+	all_s_precision = ft_all_s_precision(v, p);
 	
 	if ((!(*p)->s_arg || !(*p)->u_arg) && ((*p)->conversion_ch == 'd' && ((*p)->field_ch == ' ' && ft_strchr((*p)->all_s, '.'))))
 	 	type_width = 0;
 	if (!(*p)->u_arg && ((*p)->conversion_ch == 'x' || (*p)->conversion_ch == 'o') && ((*p)->field_ch == ' ' && ft_strchr((*p)->all_s, '.')))
 		type_width = 0;
-//	if (all_s_precision)
 	(*p)->precision = (all_s_precision > type_width) ? all_s_precision - type_width : 0;
 	if ((*p)->conversion_ch == 'c' || (*p)->conversion_ch == '%' || (*p)->conversion_ch == 'C')
 		(*p)->precision = 0;
-
-
-	//if (all_s_width)
-	
-		(*p)->width = (all_s_width - ((*p)->precision + type_width)) >= 0 ? (all_s_width - ((*p)->precision + type_width)) : 0;	
+	(*p)->width = (all_s_width - ((*p)->precision + type_width)) >= 0 ? (all_s_width - ((*p)->precision + type_width)) : 0;	
 	ft_set_width_and_precision_if_is_flags(p, type_width, all_s_width);
-
 	if ((*p)->conversion_ch == 'p' && all_s_width >= 2)
 		(*p)->width = (*p)->width - 2;
-		
 	if ((*p)->conversion_ch == 's')
 	{
 		if (type_width >= all_s_precision && ft_strchr((*p)->all_s, '.'))
@@ -533,15 +546,15 @@ void	ft_set_width_and_precision(t_shape **p)
 			(*p)->width = all_s_width - (*p)->precision_str_arg;
 		(*p)->precision = 0;
 	}
-
-
 }
 
-void ft_set_field_ch_and_width_and_precision(t_shape **p)       
+void ft_set_field_ch_and_width_and_precision(va_list v, t_shape **p)       
 {
 	ft_set_field_ch(&(*p));
-	
-	ft_set_width_and_precision(&(*p));
+	// if ft_strchr((*p)->all_s, '*');
+	// 	ft_set_width_and_precision_star(p);
+	// else
+	ft_set_width_and_precision(v, p);
 	
 }
 
@@ -605,7 +618,7 @@ int ft_show_xXp(t_shape **p)
 	ft_strdel(&str);
 	return (r_len);
 }
-int ft_show_oO(t_shape **p)
+int ft_show_oOb(t_shape **p)
 {
 	int r_len;
 	char *str;
@@ -616,6 +629,8 @@ int ft_show_oO(t_shape **p)
 		return (r_len);
 	if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) && (!(*p)->u_arg))
 		return (r_len);
+	if ((*p)->conversion_ch == 'b')
+		str = ft_itoa_base((*p)->u_arg, 2);
 	else if((*p)->conversion_ch == 'o')
 		str = ft_itoa_base((*p)->u_arg, 8);
 	else if((*p)->conversion_ch == 'O')
@@ -807,7 +822,7 @@ int ft_start_to_show(t_shape **p, t_show *head_show)
 	return (r_len);
 }
 
-void ft_start_to_set(t_shape **p)
+void ft_start_to_set(va_list v, t_shape **p)
 {
 	ft_set_conversion_ch(p);
 
@@ -819,32 +834,22 @@ void ft_start_to_set(t_shape **p)
 	
 	ft_set_modifier(p);
 	ft_set_arg_with_modifier(p);
-	ft_set_field_ch_and_width_and_precision(p);
+	ft_set_field_ch_and_width_and_precision(v, p);
 	
 }
 
 void ft_free_t_shape(t_shape **p)
 {
-	// if ((*p)->str_arg)
-	// {
-	// 	free ((*p)->str_arg);
-	
-	 //(*p)->modifier = NULL;
-	// // }
-	// printf("here\n");
 	if (!(*p))
 		return ;
-	// if ((*p)->str_arg && (*p)->str_arg[0])
-	// 	ft_strdel(&(*p)->str_arg);
 	ft_strdel(&(*p)->all_s);
-	//free((*p)->all_s);
 	 free(*p);
 	 *p = NULL;
 	 //printf("here\n");
 
 }
 
-int ft_u_start(char *s, unsigned long long int n, t_show *head_show)
+int ft_u_start(va_list v, char *s, unsigned long long int n, t_show *head_show)
 {
 	int r_len;
 	t_shape *p;
@@ -855,13 +860,13 @@ int ft_u_start(char *s, unsigned long long int n, t_show *head_show)
 		return (0);
 	p->u_arg = n;
 	p->s_arg = 0;
-	ft_start_to_set(&p);
+	ft_start_to_set(v, &p);
 	r_len = r_len + ft_start_to_show(&p, head_show);
 	ft_free_t_shape(&p);
 	return (r_len);
 }
 
-int ft_s_start(char *s, signed long long int n, t_show *head_show)
+int ft_s_start(va_list v, char *s, signed long long int n, t_show *head_show)
 {
 	int r_len;
 	t_shape *p;
@@ -877,7 +882,7 @@ int ft_s_start(char *s, signed long long int n, t_show *head_show)
 	else if (p->u_arg)
 		p->str_arg = "";
 	
-	ft_start_to_set(&p);
+	ft_start_to_set(v, &p);
 	
 	r_len = r_len + ft_start_to_show(&p, head_show);
 	ft_free_t_shape(&p);
@@ -910,7 +915,7 @@ t_show *ft_create_lst_to_show()
 	show_lst = show_lst->next;
 	show_lst->next = ft_new_lst_to_show("xXp", ft_show_xXp);
 	show_lst = show_lst->next;
-	show_lst->next = ft_new_lst_to_show("oO", ft_show_oO);
+	show_lst->next = ft_new_lst_to_show("oOb", ft_show_oOb);
 	show_lst = show_lst->next;
 	show_lst->next = ft_new_lst_to_show("CS%", ft_show_CS);
 	return (head);
@@ -939,12 +944,12 @@ int ft_printf_second(va_list	v, char *cut_s, int i, t_show *head_show)
 	int r_len;
 
 	r_len = 0;
-	if (ft_strrchr("uUxXoOpCS", cut_s[ft_strlen(cut_s) - 1]))
-		r_len = ft_u_start(cut_s, va_arg(v, unsigned long long int), head_show);
+	if (ft_strrchr("uUxXoOpCSb", cut_s[ft_strlen(cut_s) - 1]))
+		r_len = ft_u_start(v, cut_s, va_arg(v, unsigned long long int), head_show);
 	else if (ft_strrchr("dicsD", cut_s[ft_strlen(cut_s) - 1]))
-		r_len = ft_s_start(cut_s, va_arg(v, long long int), head_show);
+		r_len = ft_s_start(v, cut_s, va_arg(v, long long int), head_show);
 	else
-		r_len = ft_s_start(cut_s, 0, head_show);	
+		r_len = ft_s_start(v, cut_s, 0, head_show);
 	return (r_len);
 }
 
