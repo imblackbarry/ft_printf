@@ -539,7 +539,6 @@ void	ft_set_width_and_precision(t_shape **p)
 void ft_set_field_ch_and_width_and_precision(t_shape **p)       
 {
 	ft_set_field_ch(&(*p));
-	
 	ft_set_width_and_precision(&(*p));
 	
 }
@@ -569,19 +568,13 @@ int ft_show_CS(t_shape **p)
 	int* u;
 
 	r_len = 0;
-	// if (MB_CUR_MAX == 1)
-	// {
-	// 	if (n <= 255)
-	// 		r_len = r_len + ft_putchar(n);
-
-	// }
-
 	if((*p)->conversion_ch == 'C')
 		r_len = ft_unicode((*p)->u_arg);
 	else if ((*p)->conversion_ch == 'S')
 		r_len = ft_S_unicode(p);
 	return (r_len);
 }
+
 int ft_show_xXp(t_shape **p)
 {
 	int r_len;
@@ -898,15 +891,15 @@ int ft_s_start(char *s, signed long long int n, t_show *head_show)
 		return (0);
 	p->s_arg = n;
 	p->u_arg = p->s_arg;
-	if (p->u_arg >= 2097151)
+	//if (p->u_arg >= 2097151)
 		p->str_arg = (char*)p->s_arg;
-	else if (p->u_arg)
-		p->str_arg = "";
-	
+	//else
+	//	p->str_arg = "";
 	ft_start_to_set(&p);
-	
 	r_len = r_len + ft_start_to_show(&p, head_show);
+	
 	ft_free_t_shape(&p);
+	//printf("here\n");
 	return (r_len);
 }
 
@@ -956,17 +949,19 @@ void ft_free_head_show(t_show **head_show)
 	} 
 	(*head_show) = NULL;
 }
+
 int ft_printf_second(va_list	v, char *cut_s, t_show *head_show)
 {
 	int r_len;
 
-	r_len = 0;
+	r_len = 0;//printf("here\n");
 	if (ft_strrchr("uUxXoOpCSb", cut_s[ft_strlen(cut_s) - 1]))
 		r_len = ft_u_start(cut_s, va_arg(v, unsigned long long int), head_show);
 	else if (ft_strrchr("dicsD", cut_s[ft_strlen(cut_s) - 1]))
 		r_len = ft_s_start(cut_s, va_arg(v, long long int), head_show);
 	else
-		r_len = ft_s_start(cut_s, 0, head_show);	
+		r_len = ft_s_start(cut_s, 0, head_show);
+	//
 	return (r_len);
 }
 
@@ -992,7 +987,6 @@ char	*ft_save_str(int i, const char *s)
 		j++;
 	saved_str = ft_strsub(s, i, j - i);
 	return (saved_str);
-	//write(1, s + i, 1);
 }
 
 int	ft_printf(const char *s, ... )
@@ -1012,8 +1006,7 @@ int	ft_printf(const char *s, ... )
 		if (s[i] == '%')
 		{
 			r_len = r_len + ft_printf_first(++i, s, head_show, v);
-			//printf("here\n");
-			i += ft_search_posicion(((char*)s + i) );
+			i += ft_search_posicion(((char*)s + i));
 			ft_strdel(&saved_str);
 		}
 		else
