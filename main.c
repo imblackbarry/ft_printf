@@ -24,9 +24,9 @@ int main()
 	//setlocale(LC_CTYPE, "");
 
 
-	 i = ft_printf("%"); 
-	// j = printf("lalala %d %s\n", 7, "SUPER"); 
-	// j = printf("orig %.85jll010", -2147483649); ft_putchar('\n');
+	 
+	 j = ft_printf("%s%S\n", "mine ", L"ененен"); 
+	 j = printf("%s%S\n", "orig ", L"ененен"); //ft_putchar('\n');
 	// //b = ft_itoa_base(4567, 2);
 //	printf("%s\n", b);
 	printf("\tft_printf = %d\n\tprintf = %d\n", i, j);
@@ -41,11 +41,3 @@ int main()
 //system("leaks a.out");
 	return (0);
 }
-
-//
-
-
-// 0       ft_printf = 0
-//         printf = 1
-
-             
