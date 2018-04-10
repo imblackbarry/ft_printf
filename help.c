@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void ft_null_string(t_shape **p)
+void	ft_null_string(t_shape **p)
 {
 	if (((void *)(*p)->str_arg == NULL && (*p)->conversion_ch == 's') ||
 	((void *)(*p)->u_arg == NULL && (*p)->conversion_ch == 'S'))
