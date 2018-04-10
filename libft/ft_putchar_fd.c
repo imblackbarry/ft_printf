@@ -14,5 +14,8 @@
 
 unsigned long long int	ft_putchar_fd(char c, int fd)
 {
-	return(write(fd, &c, 1));
+	int n;
+
+	n = write(fd, &c, 1);
+	return (n);
 }

@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   first_modifier.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/10 15:01:31 by vblokha           #+#    #+#             */
+/*   Updated: 2018/04/10 15:01:37 by vblokha          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
 void	ft_modifier_ll(t_shape **p)
 {
 	(*p)->s_arg = (long long)(*p)->s_arg;
@@ -11,10 +25,10 @@ void	ft_modifier_j(t_shape **p)
 
 void	ft_if_without_modifier(t_shape **p)
 {
-
 	if ((*p)->conversion_ch == 'D')
 		(*p)->s_arg = (long int)(*p)->s_arg;
-	else if ((*p)->conversion_ch == 'O' || (*p)->conversion_ch == 'U' || (*p)->conversion_ch == 'p')
+	else if ((*p)->conversion_ch == 'O' || (*p)->conversion_ch == 'U' ||
+	(*p)->conversion_ch == 'p')
 		(*p)->u_arg = (unsigned long)(*p)->u_arg;
 	else if ((*p)->conversion_ch == 'C')
 	{
@@ -37,20 +51,20 @@ void	ft_modifier_z(t_shape **p)
 	(*p)->s_arg = (size_t)(*p)->s_arg;
 }
 
-void ft_set_arg_with_modifier(t_shape **p)
+void	ft_modifier_l(t_shape **p)
 {
-	if (!ft_strcmp((*p)->modifier, "hh"))
-		ft_modifier_hh(&(*p));
-	else if (!ft_strcmp((*p)->modifier, "h"))	
-		ft_modifier_h(&(*p));
-	else if (!ft_strcmp((*p)->modifier, "l"))
-		ft_modifier_l(&(*p));
-	else if (!ft_strcmp((*p)->modifier, "ll"))
-		ft_modifier_ll(p);
-	else if (!ft_strcmp((*p)->modifier, "j"))
-		ft_modifier_j(p);
-	else if (!ft_strcmp((*p)->modifier, "z"))
-		ft_modifier_z(p);
-	else 
-		ft_if_without_modifier(p);
+	if ((*p)->conversion_ch == 'c')
+	{
+		(*p)->conversion_ch = 'C';
+	}
+	else if ((*p)->conversion_ch == 's')
+	{
+		(*p)->conversion_ch = 'S';
+	}
+	else if ((*p)->conversion_ch == 'u')
+		(*p)->u_arg = (unsigned long)(*p)->u_arg;
+	else if ((*p)->s_arg)
+		(*p)->s_arg = (long)(*p)->s_arg;
+	else
+		(*p)->u_arg = (unsigned long int)(*p)->u_arg;
 }

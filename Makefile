@@ -13,7 +13,9 @@ NAME = libftprintf.a
 
 LIBFT = libft
 
-SRCS = ft_printf.c ft_unicode.c
+SRCS = ft_printf.c unicode.c first_modifier.c flags.c help_to_show.c \
+help_width_precision.c help.c lst_to_show.c result_show.c second_modifier.c \
+first_set.c second_set.c struct_show.c type_show.c unicode_width.c
 
 OBJ = ./$(SRCS:.c=.o)
 
@@ -33,9 +35,10 @@ $(NAME): $(OBJ)
 	gcc $(FLAGS) -I $(INCLUDES) -c $<
 
 comp:
-	gcc -g main.c ft_printf.c ft_unicode.c libft/libft.a 
-libcomp:
-	gcc -g main.c libftprintf.a libft/libft.a 
+	gcc -g main.c ft_printf.c unicode.c first_modifier.c flags.c help_to_show.c \
+help_width_precision.c help.c lst_to_show.c result_show.c second_modifier.c \
+first_set.c second_set.c struct_show.c type_show.c unicode_width.c libft/libft.a 
+
 norm:
 	norminette -R CheckForbiddenSourceHeader
 

@@ -18,18 +18,16 @@
 
 int main()
 {
+	setlocale(LC_CTYPE, "");
 	int i;
 	int j;
-	char *b;
-	//setlocale(LC_CTYPE, "");
-
-
 	 
 	//j = ft_printf("%s%s%s%s%s\n", BGBCYN, END, "text", NRM);
 //i = ft_printf("%s%s%s%s%s%s%s%s\n",  BGRN, UND, END, "Vika ", "the ", "Best ", "!", NRM);
 
-	i = ft_printf("%s%s%s%s%s%s%s%s\n",  BGBMAGENTA, END, "Vika ", "the ", "Best ", "!", NRM);
-	j = printf("%s%s%s%s%s\n",  "pVika ", "the ", "Best ", "!");
+	i = ft_printf("%s \n", "Vika");
+	j = printf("%s \n", "Vika");
+	//j = printf("%s%s%s%s%s\n",  "pVika ", "the ", "Best ", "!");
 	// //b = ft_itoa_base(4567, 2)
 	//printf("%s%s%s%As%s\n", "\x1B[27", END, "text", NRM);
 	printf("\tft_printf = %d\n\tprintf = %d\n", i, j);

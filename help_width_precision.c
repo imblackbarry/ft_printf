@@ -1,6 +1,19 @@
-int	ft_set_type_width(t_shape **p)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   help_width_precision.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/10 15:03:24 by vblokha           #+#    #+#             */
+/*   Updated: 2018/04/10 15:03:26 by vblokha          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+int		ft_set_type_width(t_shape **p)
 {
-	//printf(" IN ft_set_type_width\n");
 	if ((*p)->conversion_ch == 'd' || (*p)->conversion_ch == 'D')
 		return (ft_s_num_width((*p)->s_arg, 10));
 	else if ((*p)->conversion_ch == 'u' || (*p)->conversion_ch == 'U')
@@ -16,20 +29,18 @@ int	ft_set_type_width(t_shape **p)
 	else if ((*p)->conversion_ch == 'c')
 		return (1);
 	else if ((*p)->conversion_ch == 's')
-	{
-		//printf(" IN ft_set_type_width\n");
 		return (ft_strlen((*p)->str_arg));
-	}
 	else if ((*p)->conversion_ch == 'C' || (*p)->conversion_ch == 'S')
 		return (ft_unicode_width(p));
 	return (0);
 }
-int ft_all_s_precision(t_shape **p)
+
+int		ft_all_s_precision(t_shape **p)
 {
 	int i;
 
 	i = 0;
-	while((*p)->all_s[i])
+	while ((*p)->all_s[i])
 	{
 		if ((*p)->all_s[i] == '.')
 		{
@@ -41,12 +52,12 @@ int ft_all_s_precision(t_shape **p)
 	return (0);
 }
 
-int ft_all_s_width(t_shape **p)
+int		ft_all_s_width(t_shape **p)
 {
 	int i;
 
 	i = 0;
-	while((*p)->all_s[i])
+	while ((*p)->all_s[i])
 	{
 		while ((*p)->all_s[i] == '0')
 			i++;
@@ -62,55 +73,31 @@ int ft_all_s_width(t_shape **p)
 	}
 	return (0);
 }
-void ft_set_field_ch_and_width_and_precision(t_shape **p)       
-{
-	ft_set_field_ch(&(*p));
-	ft_set_width_and_precision(&(*p));
-	
-}
 
-void	ft_set_width_and_precision(t_shape **p)
+void	ft_width_prec_for_s(t_shape **p, int s_prec, int t_width, int s_w)
 {
-	int type_width;
-	int all_s_width;
-	int all_s_precision;
-
-	
-	type_width = ft_set_type_width(p);
-	all_s_width = ft_all_s_width(p);
-	all_s_precision = ft_all_s_precision(p);
-	if ((!(*p)->s_arg || !(*p)->u_arg) && ((*p)->conversion_ch == 'd' 
-	&& ((*p)->field_ch == ' ' && ft_strchr((*p)->all_s, '.'))))
-	 	type_width = 0;
-	if (!(*p)->u_arg && ((*p)->conversion_ch == 'x' || (*p)->conversion_ch == 'o')
-	 && ((*p)->field_ch == ' ' && ft_strchr((*p)->all_s, '.')))
-		type_width = 0;
-	(*p)->precision = (all_s_precision > type_width) ? all_s_precision - type_width : 0;
-	if ((*p)->conversion_ch == 'c' || (*p)->conversion_ch == '%' || (*p)->conversion_ch == 'C')
-		(*p)->precision = 0;
-		(*p)->width = (all_s_width - ((*p)->precision + type_width)) >= 0 ?
-		 (all_s_width - ((*p)->precision + type_width)) : 0;	
-	ft_set_width_and_precision_if_is_flags(p, type_width, all_s_width);
-	if ((*p)->conversion_ch == 'p' && all_s_width >= 2)
-		(*p)->width = (*p)->width - 2;
 	if ((*p)->conversion_ch == 's')
 	{
-		if (type_width >= all_s_precision && ft_strchr((*p)->all_s, '.'))
-			(*p)->precision_str_arg = all_s_precision;
+		if (t_width >= s_prec && ft_strchr((*p)->all_s, '.'))
+			(*p)->prec_str_arg = s_prec;
 		else if ((void*)(*p)->str_arg != NULL)
-			(*p)->precision_str_arg = type_width ;
-		(*p)->width = all_s_width - (*p)->precision_str_arg;
+			(*p)->prec_str_arg = t_width;
+		(*p)->width = s_w - (*p)->prec_str_arg;
 		(*p)->precision = 0;
 	}
+}
+
+void	ft_width_prec_for_upper_s(t_shape **p, int s_prec, int t_width, int s_w)
+{
 	if ((*p)->conversion_ch == 'S')
 	{
-		if (type_width >= all_s_precision && ft_strchr((*p)->all_s, '.'))
-			(*p)->precision_str_arg = all_s_precision;
-		else 
-		 	(*p)->precision_str_arg = type_width ;
-		(*p)->precision_str_arg = ft_showed_unicode_width_S(p);
-		if (all_s_width)
-			(*p)->width = all_s_width - (*p)->precision_str_arg;
+		if (t_width >= s_prec && ft_strchr((*p)->all_s, '.'))
+			(*p)->prec_str_arg = s_prec;
+		else
+			(*p)->prec_str_arg = t_width;
+		(*p)->prec_str_arg = ft_showed_unicode_width_s(p);
+		if (s_w)
+			(*p)->width = s_w - (*p)->prec_str_arg;
 		(*p)->precision = 0;
 	}
 }

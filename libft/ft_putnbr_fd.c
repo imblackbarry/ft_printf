@@ -14,8 +14,8 @@
 
 unsigned long long int	ft_putnbr_fd(int n, int fd)
 {
-	char	v;
-	unsigned long long int r_len;
+	char					v;
+	unsigned long long int	r_len;
 
 	r_len = 0;
 	if (n == -2147483648)

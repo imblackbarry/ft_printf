@@ -1,4 +1,18 @@
-int ft_is_hh(t_shape **p)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   second_modifier.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/10 15:04:49 by vblokha           #+#    #+#             */
+/*   Updated: 2018/04/10 15:04:52 by vblokha          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+int		ft_is_hh(t_shape **p)
 {
 	int i;
 	int hh;
@@ -14,42 +28,6 @@ int ft_is_hh(t_shape **p)
 	if (hh && hh % 2 == 0)
 		return (1);
 	return (0);
-}
-void	ft_set_modifier(t_shape **p)
-{
-	if (ft_strstr((*p)->all_s, "z"))
-		(*p)->modifier = "z";
-	else if (ft_strstr((*p)->all_s, "j"))
-		(*p)->modifier = "j";
-	else if (ft_strstr((*p)->all_s, "ll"))
-		(*p)->modifier = "ll";
-	else if (ft_strstr((*p)->all_s, "l"))
-			(*p)->modifier = "l";
-	else if (ft_is_hh(p))
-		(*p)->modifier = "hh";
-	else if (ft_strstr((*p)->all_s, "h"))
-		(*p)->modifier = "h";
-	else
-		(*p)->modifier = "\0";
-}
-void	ft_modifier_l(t_shape **p)
-{
-	if ((*p)->conversion_ch == 'c')
-	{
-		(*p)->conversion_ch = 'C';
-	}
-	else if ((*p)->conversion_ch == 's')
-	{
-		(*p)->conversion_ch = 'S';
-	}
-	else if ((*p)->conversion_ch == 'u')
-		(*p)->u_arg = (unsigned long)(*p)->u_arg;
-	//else if ((*p)->conversion_ch == 'o')
-
-	else if ((*p)->s_arg)
-		(*p)->s_arg = (long)(*p)->s_arg;
-	else
-		(*p)->u_arg = (unsigned long int)(*p)->u_arg;
 }
 
 void	ft_modifier_hh(t_shape **p)
@@ -72,21 +50,19 @@ void	ft_modifier_hh(t_shape **p)
 		(*p)->modifier = "";
 	else
 		(*p)->u_arg = (unsigned char)(*p)->u_arg;
-	// else
-	// 	(*p)->u_arg = (signed char)(*p)->s_arg;
 }
 
 void	ft_modifier_h(t_shape **p)
 {
-		if ((*p)->conversion_ch == 'D')
-			(*p)->s_arg = (unsigned long)(*p)->s_arg;
-		else if ((*p)->conversion_ch == 'U')
-			return ;
-		else if ((*p)->s_arg)
-		{
-			(*p)->s_arg = (short int)(*p)->s_arg;
-			(*p)->u_arg = (short int)(*p)->u_arg;
-		}
-		else
-			(*p)->u_arg = (unsigned short)(*p)->u_arg;
+	if ((*p)->conversion_ch == 'D')
+		(*p)->s_arg = (unsigned long)(*p)->s_arg;
+	else if ((*p)->conversion_ch == 'U')
+		return ;
+	else if ((*p)->s_arg)
+	{
+		(*p)->s_arg = (short int)(*p)->s_arg;
+		(*p)->u_arg = (short int)(*p)->u_arg;
+	}
+	else
+		(*p)->u_arg = (unsigned short)(*p)->u_arg;
 }

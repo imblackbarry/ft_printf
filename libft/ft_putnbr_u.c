@@ -25,10 +25,10 @@ static unsigned long long int	ft_num_len(unsigned long long int n)
 	return (i + 1);
 }
 
-unsigned long long int ft_putnbr_u(unsigned long long int n)
+unsigned long long int			ft_putnbr_u(unsigned long long int n)
 {
-	char	v;
-	unsigned long long int r_len;
+	char					v;
+	unsigned long long int	r_len;
 
 	r_len = ft_num_len(n);
 	if (n / 10 > 0)

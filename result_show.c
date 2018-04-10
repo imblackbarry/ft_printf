@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   result_show.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/10 15:04:29 by vblokha           #+#    #+#             */
+/*   Updated: 2018/04/10 15:04:33 by vblokha          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_show_sign(t_shape **p)
+#include "ft_printf.h"
+
+int	ft_show_sign(t_shape **p)
 {
 	int r_len;
-	r_len = 0;
 
+	r_len = 0;
 	if ((*p)->s_arg < 0 && ((*p)->conversion_ch == 'd'))
 	{
 		r_len = write(1, "-", 1);
@@ -15,7 +28,7 @@ int ft_show_sign(t_shape **p)
 	return (r_len);
 }
 
-int ft_show_precision(t_shape **p)
+int	ft_show_precision(t_shape **p)
 {
 	int r_len;
 	int i;
@@ -30,7 +43,7 @@ int ft_show_precision(t_shape **p)
 	return (r_len);
 }
 
-int ft_show_arg(t_shape **p, t_show *head_show)
+int	ft_show_arg(t_shape **p, t_show *head_show)
 {
 	int r_len;
 
@@ -42,7 +55,7 @@ int ft_show_arg(t_shape **p, t_show *head_show)
 	return (r_len);
 }
 
-int ft_show_width(t_shape **p)
+int	ft_show_width(t_shape **p)
 {
 	int r_len;
 	int i;
@@ -56,16 +69,17 @@ int ft_show_width(t_shape **p)
 	}
 	return (r_len);
 }
-int ft_show_0x(t_shape **p)
+
+int	ft_show_0x(t_shape **p)
 {
 	int r_len;
 
 	r_len = 0;
-	
 	if ((*p)->conversion_ch == 'p')
 		r_len = r_len + write(1, "0x", 2);
-	if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) && (!(*p)->u_arg))
-		return (r_len);	
+	if ((ft_strchr((*p)->all_s, '.') || ft_strchr((*p)->all_s, '#')) &&
+	(!(*p)->u_arg))
+		return (r_len);
 	if (ft_strchr((*p)->all_s, '#') && (*p)->conversion_ch == 'x')
 		r_len = r_len + write(1, "0x", 2);
 	else if ((*p)->conversion_ch == 'X' && ft_strchr((*p)->all_s, '#'))

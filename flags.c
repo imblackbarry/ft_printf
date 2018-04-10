@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   flags.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/10 15:02:09 by vblokha           #+#    #+#             */
+/*   Updated: 2018/04/10 15:02:15 by vblokha          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
 void	ft_flags_up(t_shape **p)
 {
 	int i;
 
 	i = 0;
 	(*p)->str_arg = ft_strdup((*p)->str_arg);
-	while((*p)->str_arg[i])
+	while ((*p)->str_arg[i])
 	{
 		(*p)->str_arg[i] = (char)ft_toupper((int)(*p)->str_arg[i]);
 		i++;
@@ -19,7 +33,7 @@ void	ft_flags_down(t_shape **p)
 
 	i = 0;
 	(*p)->str_arg = ft_strdup((*p)->str_arg);
-	while((*p)->str_arg[i])
+	while ((*p)->str_arg[i])
 	{
 		(*p)->str_arg[i] = (char)ft_tolower((int)(*p)->str_arg[i]);
 		i++;
@@ -36,9 +50,29 @@ void	ft_flags_a(t_shape **p)
 		ft_flags_up(p);
 }
 
-void	ft_set_width_and_precision_if_is_flags(t_shape **p, int type_width, int all_s_width)
+void	ft_set_width_prec_for_d(t_shape **p, int t_width, int all_s_width)
 {
+	if ((*p)->conversion_ch == 'd')
+	{
+		if (ft_strchr((*p)->all_s, ' ') && (t_width +
+		(*p)->precision) >= all_s_width)
+		{
+			(*p)->field_ch = ' ';
+			(*p)->width = 1;
+		}
+		if ((*p)->field_ch == '0' && ft_strchr((*p)->all_s, ' '))
+		{
+			(*p)->precision = all_s_width - t_width - 1;
+			(*p)->field_ch = ' ';
+			(*p)->width = 1;
+		}
+		if ((*p)->s_arg < 0 || ft_strchr((*p)->all_s, '+'))
+			(*p)->width--;
+	}
+}
 
+void	ft_set_width_prec_with_flags(t_shape **p, int t_width, int all_s_width)
+{
 	if ((*p)->conversion_ch == 'o' || (*p)->conversion_ch == 'O')
 	{
 		if (ft_strchr((*p)->all_s, '#') && (*p)->precision <= 0)
@@ -52,20 +86,5 @@ void	ft_set_width_and_precision_if_is_flags(t_shape **p, int type_width, int all
 		if (ft_strchr((*p)->all_s, '#'))
 			(*p)->width = (*p)->width - 2;
 	}
-	if ((*p)->conversion_ch == 'd')
-	{
-		if (ft_strchr((*p)->all_s, ' ') && (type_width + (*p)->precision) >= all_s_width)
-		{
-			(*p)->field_ch = ' ';
-			(*p)->width = 1;
-		}
-		if ((*p)->field_ch == '0' && ft_strchr((*p)->all_s, ' '))
-		{
-			(*p)->precision = all_s_width - type_width - 1 ;
-			(*p)->field_ch = ' ';
-			(*p)->width = 1;
-		}
-		if ((*p)->s_arg < 0 || ft_strchr((*p)->all_s, '+'))
-			(*p)->width--;
-	}
+	ft_set_width_prec_for_d(p, t_width, all_s_width);
 }

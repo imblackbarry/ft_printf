@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtoupper.c                                     :+:      :+:    :+:   */
+/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/27 16:47:42 by vblokha           #+#    #+#             */
-/*   Updated: 2018/01/27 16:47:44 by vblokha          ###   ########.fr       */
+/*   Created: 2018/04/10 15:50:39 by vblokha           #+#    #+#             */
+/*   Updated: 2018/04/10 15:50:41 by vblokha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strtoupper(char *s)
+char	*ft_strtoupper(char *s)
 {
 	int i;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		s[i] = ft_toupper((int)s[i]);
 		i++;
