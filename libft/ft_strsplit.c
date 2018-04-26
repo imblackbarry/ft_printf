@@ -30,7 +30,7 @@ char		**ft_strsplit(char const *s, char c)
 		while (s[i] == c)
 			i++;
 		j = i;
-		while (s[j] != c)
+		while (s[j] != c && s[j] != '\0')
 			j++;
 		split[k++] = ft_strsub(s, i, j - i);
 		i = j;

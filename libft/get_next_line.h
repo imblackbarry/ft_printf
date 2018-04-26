@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/31 10:22:24 by vblokha           #+#    #+#             */
-/*   Updated: 2017/11/18 13:17:04 by vblokha          ###   ########.fr       */
+/*   Created: 2017/12/07 16:50:17 by vblokha           #+#    #+#             */
+/*   Updated: 2017/12/07 16:55:49 by vblokha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strcat(char *s1, const char *s2)
-{
-	int i;
-	int j;
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include "libft.h"
+# define BUFF_SIZE 66
 
-	if (!s1 || !s2)
-		return (0);
-	i = 0;
-	j = 0;
-	while (s1[i])
-		i++;
-	while (s2[j])
-		s1[i++] = s2[j++];
-	s1[i] = '\0';
-	return (s1);
-}
+typedef	struct		s_mylst
+{
+	int				fd;
+	char			*content;
+	struct s_mylst	*next;
+}					t_mylst;
+typedef	struct		s_struct
+{
+	char			*str;
+	int				ret;
+	int				k;
+}					t_struct;
+int					get_next_line(const int fd, char **line);
+
+#endif
