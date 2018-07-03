@@ -39,9 +39,9 @@ OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJDIR) $(OBJ)
-	@echo "made all objects"
+	@echo "made libft objects"
 	@ar rc $(NAME) $(OBJ)
-	@echo "made lib"
+	@echo "made libft"
 	@ranlib $(NAME)
 
 $(OBJDIR):

@@ -30,20 +30,18 @@ FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(OBJDIR) $(LIBFT)  $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
-
-$(LIBFT):
-	@echo make libft
+$(NAME): $(OBJDIR) $(OBJ)
 	make -C $(LIBFT)
-	cp libft/libft.a ./$(NAME)
+	cp libft/libft.a $(NAME)
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+	@echo "made libftprintf"
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
 $(OBJ): $(OBJDIR)%.o : $(SRCDIR)%.c
-	gcc $(FLAGS) -I $(INC) -c $< -o $@
+	@gcc $(FLAGS) -I $(INC) -c $< -o $@
 
 norm:
 	norminette -R CheckForbiddenSourceHeader
