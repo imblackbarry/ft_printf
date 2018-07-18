@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_int_double_arr.c                           :+:      :+:    :+:   */
+/*   ft_chrposition.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/12 19:48:34 by vblokha           #+#    #+#             */
-/*   Updated: 2018/06/12 19:48:37 by vblokha          ###   ########.fr       */
+/*   Created: 2018/07/14 17:15:06 by vblokha           #+#    #+#             */
+/*   Updated: 2018/07/14 17:15:08 by vblokha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
-
-void	ft_free_int_double_arr(int ***arr, int size_y)
+int     ft_chrposition(char *str, int c)
 {
 	int i;
 
 	i = 0;
-	if (*arr == NULL)
-		return ;
-	while (i < size_y)
-		free(arr[0][i++]);
-	free(arr[0]);
-	arr[0] = NULL;
+	while (str[i] != '\0' && str[i] != c)
+		i++;
+	return (i);
 }

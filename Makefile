@@ -21,22 +21,15 @@ first_set.c second_set.c struct_show.c type_show.c unicode_width.c
 SRCDIR = sources/
 
 OBJDIR = objects/
-<<<<<<< HEAD
 
 OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
-=======
-
-OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
-
->>>>>>> 6270ed38aba68df36c0bb13d0925c02b6815e7f0
 INC = headers/ft_printf.h
 
 FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-<<<<<<< HEAD
 $(NAME): $(OBJDIR) $(OBJ)
 	make -C $(LIBFT)
 	cp libft/libft.a $(NAME)
@@ -49,22 +42,6 @@ $(OBJDIR):
 
 $(OBJ): $(OBJDIR)%.o : $(SRCDIR)%.c
 	@gcc $(FLAGS) -I $(INC) -c $< -o $@
-=======
-$(NAME): $(OBJDIR) $(LIBFT)  $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
-
-$(LIBFT):
-	@echo make libft
-	make -C $(LIBFT)
-	cp libft/libft.a ./$(NAME)
-
-$(OBJDIR):
-	mkdir $(OBJDIR)
-
-$(OBJ): $(OBJDIR)%.o : $(SRCDIR)%.c
-	gcc $(FLAGS) -I $(INC) -c $< -o $@
->>>>>>> 6270ed38aba68df36c0bb13d0925c02b6815e7f0
 
 norm:
 	norminette -R CheckForbiddenSourceHeader

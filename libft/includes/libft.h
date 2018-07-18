@@ -110,7 +110,8 @@ int					ft_u_num_width(unsigned long long int n, int div);
 void				ft_free_char_double_arr(char ***arr);
 int					compare_to_upper_and_low(char c, char lower_virsion);
 void				ft_join_free(char **s1, char *s2);
-void				ft_free_int_double_arr(int ***arr, int size_y);
-int					**ft_new_double_int_arr(int size_x, int size_y);
+int					**ft_new_double_int_arr(int size_x, int size_y, int value);
+void				ft_free_double_int_arr(int ***arr);
+int					ft_chrposition(char *str, int c);
 
 #endif

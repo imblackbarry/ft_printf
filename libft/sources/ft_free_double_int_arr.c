@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_free_int_double_arr.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vblokha <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 18:02:15 by vblokha           #+#    #+#             */
-/*   Updated: 2017/10/26 18:02:29 by vblokha          ###   ########.fr       */
+/*   Created: 2018/06/12 19:48:34 by vblokha           #+#    #+#             */
+/*   Updated: 2018/06/12 19:48:37 by vblokha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_free_double_int_arr(int ***arr)
 {
-	int l;
+	int i;
 
-	if (!*str)
-		return (0);
-	l = 0;
-	while (str[l] != '\0')
-		l++;
-	return (l);
+	i = 0;
+	if (*arr == NULL)
+		return ;
+	free(arr[0][0]);
+	free(arr[0]);
+	arr[0] = NULL;
 }

@@ -12,25 +12,33 @@
 
 #include "../includes/libft.h"
 
-int	**ft_new_double_int_arr(int size_x, int size_y)
+static void	fill_arr(int *arr, int square, int value)
 {
-	int **new;
-	int i;
 	int j;
 
-	i = 0;
 	j = 0;
+	while (j < square)
+	{
+		arr[j] = value;
+		j++;
+	}
+}
+
+int	**ft_new_double_int_arr(int size_x, int size_y, int value)
+{
+	int **new;
+	int *set_each_new;
+	int i;
+
+	i = 1;
 	new = (int**)malloc(sizeof(int*) * size_y);
+	set_each_new = (int*)malloc(sizeof(int) * size_x * size_y);
+	new[0] = set_each_new;
 	while (i < size_y)
 	{
-		j = 0;
-		new[i] = (int*)malloc(sizeof(int) * size_x);
-		while (j < size_x)
-		{
-			new[i][j] = -1;
-			j++;
-		}
+		new[i] = set_each_new + (i * size_x);
 		i++;
 	}
+	fill_arr(set_each_new, size_x * size_y, value);
 	return (new);
 }
