@@ -113,5 +113,7 @@ void				ft_join_free(char **s1, char *s2);
 int					**ft_new_double_int_arr(int size_x, int size_y, int value);
 void				ft_free_double_int_arr(int ***arr);
 int					ft_chrposition(char *str, int c);
+int					*ft_intdup(int *arr, int size);
+int					ft_intposition(int *arr, int number, int size);
 
 #endif
