@@ -12,7 +12,7 @@
 
 NAME = libft.a
 
-INC = includes/libft.h 
+INC = ./includes/
 
 SRCDIR = sources/
 

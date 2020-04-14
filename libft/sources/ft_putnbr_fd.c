@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 unsigned long long int	ft_putnbr_fd(int n, int fd)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 unsigned long long int	ft_putendl_fd(char const *s, int fd)
 {

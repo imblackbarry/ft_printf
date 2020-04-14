@@ -24,13 +24,13 @@ OBJDIR = objects/
 
 OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
-INC = headers/ft_printf.h
+INC = ./headers/
 
 FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(OBJDIR) $(OBJ)
+$(NAME): $(OBJDIR) $(OBJ) $(INC)*
 	make -C $(LIBFT)
 	cp libft/libft.a $(NAME)
 	@ar rc $(NAME) $(OBJ)
@@ -40,8 +40,8 @@ $(NAME): $(OBJDIR) $(OBJ)
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
-$(OBJ): $(OBJDIR)%.o : $(SRCDIR)%.c
-	@gcc $(FLAGS) -I $(INC) -c $< -o $@
+$(OBJ): $(OBJDIR)%.o : $(SRCDIR)%.c ./headers/*.h
+	@gcc $(FLAGS) -I $(INC) -I ./libft/includes/ -c $< -o $@
 
 norm:
 	norminette -R CheckForbiddenSourceHeader
