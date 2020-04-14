@@ -115,5 +115,5 @@ void				ft_free_double_int_arr(int ***arr);
 int					ft_chrposition(char *str, int c);
 int					*ft_intdup(int *arr, int size);
 int					ft_intposition(int *arr, int number, int size);
-
+void				ft_bitset(uint8_t bits, unsigned short value, size_t index);
 #endif

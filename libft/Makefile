@@ -30,7 +30,8 @@ ft_lstnew.c ft_lstdelone.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_lstdel.c\
 ft_countwords.c ft_lstdisplay.c ft_del.c ft_lstaddend.c ft_count_if.c ft_itoa_base.c\
 ft_strtoupper.c ft_putnbr_s.c ft_putnbr_u.c ft_putstrlen.c ft_s_num_width.c ft_u_num_width.c\
 get_next_line.c ft_free_char_double_arr.c compare_to_upper_and_low.c ft_join_free.c \
-ft_free_double_int_arr.c ft_new_double_int_arr.c ft_chrposition.c ft_intdup.c ft_intposition.c
+ft_free_double_int_arr.c ft_new_double_int_arr.c ft_chrposition.c ft_intdup.c ft_intposition.c \
+ft_bitset.c
 
 OBJDIR = objects/
 
