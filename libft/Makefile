@@ -31,7 +31,7 @@ ft_countwords.c ft_lstdisplay.c ft_del.c ft_lstaddend.c ft_count_if.c ft_itoa_ba
 ft_strtoupper.c ft_putnbr_s.c ft_putnbr_u.c ft_putstrlen.c ft_s_num_width.c ft_u_num_width.c\
 get_next_line.c ft_free_char_double_arr.c compare_to_upper_and_low.c ft_join_free.c \
 ft_free_double_int_arr.c ft_new_double_int_arr.c ft_chrposition.c ft_intdup.c ft_intposition.c \
-ft_bitset.c
+ft_bitset.c ft_strsplit_by_str.c ft_count_words_by_delims.c
 
 OBJDIR = objects/
 
@@ -40,9 +40,8 @@ OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJDIR) $(OBJ)
-	@echo "made libft objects"
 	@ar rc $(NAME) $(OBJ)
-	@echo "made libft"
+	@echo "libft.a is created"
 	@ranlib $(NAME)
 
 $(OBJDIR):

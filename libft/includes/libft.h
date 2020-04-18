@@ -18,6 +18,10 @@
 # include <string.h>
 # include "get_next_line.h"
 
+typedef short bool; // is forbidden
+#define false 0
+#define true 1
+
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t				ft_strlen(const char *str);
 int					ft_atoi(const char *str);
@@ -77,6 +81,7 @@ char				*ft_strjoin(char const *s1, char const
 char				*ft_strtrim(char const *s);
 char				*ft_itoa(int n);
 char				**ft_strsplit(char const *s, char c);
+char				**ft_strsplit_by_str(char const *s, const char *c);
 unsigned long long	ft_putchar_fd(char c, int fd);
 unsigned long long	ft_putstr_fd(char const *s, int fd);
 unsigned long long	ft_putendl_fd(char const *s, int fd);
@@ -96,6 +101,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstdel(t_list **alst, void (*del)(void *,
 	size_t));
 size_t				ft_countwords(char const *s, char c);
+size_t				ft_count_words_by_delims(const char *str, const char *delimiters);
 void				ft_lstdisplay(t_list *lst);
 void				ft_del(void *content, size_t size);
 t_list				*ft_lstaddend(t_list *list1, t_list *lst2);

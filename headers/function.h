@@ -24,10 +24,6 @@
 # define FLAGS "aA-+# 0."
 # define CHARS "csCS"
 
-typedef int bool;
-#define false 0
-#define true 1
-
 int		ft_printf_first(int i, const char *s, t_show *head_show, va_list v);
 int		ft_printf_second(va_list v, char *cut_s, t_show *head_show);
 int		ft_s_start(char *s, signed long long int n, t_show *head_show);
