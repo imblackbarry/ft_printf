@@ -6,8 +6,8 @@ static char		**ft_new_double_chr_arr(const size_t size_y, const size_t full_size
 
 	if (!(double_arr = ft_memalloc(sizeof(char*) * (size_y + 1))))
 		return (NULL);
-	if ((!(double_arr[0] = ft_memalloc(full_size))))
-		return 0;
+	if (!full_size && (!(double_arr[0] = ft_memalloc(full_size))))
+		return (NULL);
 	return double_arr;
 }
 
@@ -66,9 +66,10 @@ static void	fill_split(char *str, char **split, const size_t n_words)
 		split[i_word] = str + j;
 		i_word++;
 	}
+	split[i_word] = NULL;
 }
 
-//save memmory
+//split without memory fragmentation
 char	**ft_strsplit_by_str(char const *str, const char *delimiters)
 {
 	char	**split;
